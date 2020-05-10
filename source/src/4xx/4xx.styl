@@ -1,0 +1,57 @@
+// 
+// 4xx.styl start
+// https://codepen.io/whitelionx/pen/pGGeGY
+//
+
+//@import('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900')
+
+*
+  margin 0
+  padding 0
+
+body
+	background #333
+
+.container
+	height 100vh
+	background #333
+	display grid
+	place-items center
+	font-size 10px
+	.glitch
+		color #fff
+		font-size 10em
+		position relative
+		font-family 'Roboto'
+		font-weight 700
+		&::before
+		&::after
+			content '404'
+			position absolute
+			top 0
+			left 0
+			right 0
+			overflow hidden
+			background-color #333
+			color #fff
+		&::before
+			left 8px
+			text-shadow 2px 0 #00ffea
+			animation glitch 3s infinite linear
+		&::after
+			left 8px
+			text-shadow -2px 0 #fe3a7f
+			animation glitch 2s infinite linear
+			
+		
+random(min,max)
+	return floor(math(0, 'random')*(max - min + 1) + min)
+		
+@keyframes glitch
+	for i in (0..20)
+		{5% * i}
+			clip rect(random(i, 100)px, 9999px, random(i, 100)px, 0)
+
+//
+// 4xx.styl end
+//

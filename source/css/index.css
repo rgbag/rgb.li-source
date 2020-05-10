@@ -1,0 +1,100 @@
+#__bs_notify__ {
+  top: auto !important;
+  bottom: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 0 !important;
+  color: #fff !important;
+  width: 100% !important;
+  background-color: #32cd32 !important;
+  animation-name: browsersync-notification !important;
+  animation-duration: 2000ms !important;
+  animation-timing-function: ease !important;
+}
+@-moz-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+body {
+  font-family: sans-serif;
+  background-color: #000;
+}
+html,
+.fullscreen {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.container {
+  margin: auto;
+  text-align: center;
+}
+.title {
+  font-size: 3rem;
+}
+#colors {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.color {
+  flex: 1 0 20%;
+}
+.color:after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}

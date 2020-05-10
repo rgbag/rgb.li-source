@@ -1,0 +1,27 @@
+// Dev Testing: Change Browsersync Notification Style
+#__bs_notify__ 
+	top: auto !important
+	bottom: 0 !important
+	border-top-left-radius: 5px !important 
+	border-bottom-left-radius: 0 !important
+	color white !important
+	width 100% !important
+	background-color limegreen !important
+	animation-name browsersync-notification !important
+	animation-duration 2000ms !important
+	animation-timing-function ease !important
+
+@keyframes browsersync-notification {
+    0% {
+        opacity: 0;
+    }
+	25% {
+        opacity: 0.8;
+    }
+	60% {
+        opacity: 0.8;
+    }
+	100% {
+        opacity: 0;
+	}
+}

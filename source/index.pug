@@ -1,0 +1,17 @@
+
+doctype 
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title 101design.eu
+        link(rel='manifest' href='manifest.json')
+        link(rel='icon' href='favicon.ico')
+        link(rel='apple-touch-icon' sizes='180x180' href='img/icon.png')
+        meta(name='description', content='RGB Color Plate')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        style
+            include css/index.css
+    body.fullscreen.noscript
+        script.
+            document.querySelector('body').classList.remove('noscript');
+        include src/index/indexContent.pug
