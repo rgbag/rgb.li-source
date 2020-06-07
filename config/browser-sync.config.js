@@ -2,9 +2,8 @@
 module.exports = {
     // https: true,
     https: {
-        key: "/Users/sebastian/HTTPS/localhost+1-key.pem",
-        cert: "/Users/sebastian/HTTPS/localhost+1.pem"
+        key: "/home/opti/.https/localhost+3-key.pem",
+        cert: "/home/opti/.https/localhost+3.pem"
     },
-    startPath: "",
-    server: "./source"
+    startPath: ""
 };

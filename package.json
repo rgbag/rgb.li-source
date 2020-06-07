@@ -1,25 +1,28 @@
 {
-  "name": "pwa-builder",
-  "version": "0.0.4",
-  "description": "A Progressive Web App Builder",
+  "name": "rgb.li",
+  "version": "0.0.6",
+  "description": "All the Colors!",
   "author": "Sebastian W. Friedrich",
   "license": "EUPL-1.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sebfried/PWA-Builder.git"
+    "url": "git+https://github.com/sebfried/RGB-Lights.git"
   },
   "scripts": {
     "test": "npm start",
     "start": "npm-run-all vendor && concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-start",
     "build": "npm-run-all vendor stylus coffee purgecss pug-cli www-dist browser-sync-build",
-    "browser-sync-start": "browser-sync start --files 'source/*.html' --browser 'google chrome' --config config/browser-sync.config.js",
-    "browser-sync-build": "browser-sync start --server './www' --files 'www/*.html' --browser 'google chrome' --startPath '' --no-notify",
-    "www-dist": "npm-run-all rm-www-all minifier ncp-img ncp-font",
-    "rm-www-all": "rimraf www/*",
+    "browser-sync-start": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync.config.js",
+    "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync.config.js --no-notify",
+    "www-dist": "npm-run-all rm-www minifier ncp-img ncp-font ncp-fav ncp-manifest ncp-sw",
+    "rm-www": "rimraf www/*",
     "purgecss": "purgecss --out source/css --config config/purgecss.config.js",
-    "minifier": "html-minifier  --input-dir source --output-dir www --file-ext html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --use-short-doctype --minify-js true --minify-css true",
+    "minifier": "html-minifier --input-dir source --output-dir www --file-ext html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --use-short-doctype --minify-js true --minify-css true",
     "ncp-img": "ncp source/img www/img",
     "ncp-font": "ncp source/font www/font",
+    "ncp-fav": "ncp source/favicon.ico www/favicon.ico",
+    "ncp-manifest": "ncp source/manifest.json www/manifest.json",
+    "ncp-sw": "ncp source/sw.js www/sw.js",
     "pug-cli": "pug source --pretty",
     "stylus": "stylus source/css/*.styl source/src/4xx/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
@@ -31,7 +34,7 @@
     "clean-normalize": "cleancss -O1 'specialComments:0' source/css/_normalize.css --output source/css/_normalize.css",
     "clean-bootstrap": "cleancss -O1 'specialComments:0' source/css/_bootstrap.css --output source/css/_bootstrap.css",
     "clean-animate": "cleancss -O1 'specialComments:0' source/css/_animate.css --output source/css/_animate.css",
-    "stop": "echo 'Trying Linux/Unix Shell Command: killall node' && killall node",
+    "stop": "echo 'killall node' && killall node",
     "watch-pug-cli": "npm-watch pug-cli",
     "watch-stylus": "npm-watch stylus",
     "watch-coffee": "npm-watch coffee",
@@ -77,7 +80,7 @@
     }
   },
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "popper.js": "^1.16.0"
   }
 }

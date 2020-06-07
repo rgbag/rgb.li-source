@@ -1,0 +1,14 @@
+{
+  "name": "Hello Burger",
+  "short_name": "Burger",
+  "icons": [{
+    "src": "img/icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }],
+  "lang": "en-US",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "white",
+  "theme_color": "white"
+}

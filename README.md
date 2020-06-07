@@ -1,5 +1,5 @@
 # RGB-Light
-A Progressive Web App Builder
+All the Colors!
 
 ### Infos
 * *npm run build* funktioniert noch nicht

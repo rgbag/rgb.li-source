@@ -1,15 +1,14 @@
-window.onload = ->
-    'use strict'
-    if 'serviceWorker' of navigator
-        navigator.serviceWorker.register('./sw.js').then((registration) ->
-            console.log 'Service Worker Registered', registration
-            return
-        ).catch (err) ->
-            console.log 'Service Worker Failed to Register', err
-            return
-    return
-
-# document.body.style.background = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+# # Register Service Worker
+# window.onload = ->
+#     'use strict'
+#     if 'serviceWorker' of navigator
+#         navigator.serviceWorker.register('./sw.js').then((registration) ->
+#             console.log 'Service Worker Registered', registration
+#             return
+#         ).catch (err) ->
+#             console.log 'Service Worker Failed to Register', err
+#             return
+#     return
 
 numOfWindows = 100
 arrayDiv = new Array
@@ -18,8 +17,6 @@ while i < numOfWindows
   arrayDiv[i] = document.createElement('div')
   arrayDiv[i].id = 'block' + i
   arrayDiv[i].style.backgroundColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-#   arrayDiv[i].style.width = '100px'
-#   arrayDiv[i].style.height = '100px'
   arrayDiv[i].className = 'block' + i
   arrayDiv[i].className = 'color'
   document.getElementById('colors').appendChild arrayDiv[i]
