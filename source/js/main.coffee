@@ -14,11 +14,12 @@ numOfWindows = 100
 arrayDiv = new Array
 i = 0
 while i < numOfWindows
-  arrayDiv[i] = document.createElement('div')
+  arrayDiv[i] = document.createElement('a')
   arrayDiv[i].id = 'block' + i
-  arrayDiv[i].style.backgroundColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+  arrayDiv[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
   arrayDiv[i].className = 'block' + i
   arrayDiv[i].className = 'color'
+  arrayDiv[i].setAttribute 'href', "?hex" + randomColor
   document.getElementById('colors').appendChild arrayDiv[i]
   i++;
 
