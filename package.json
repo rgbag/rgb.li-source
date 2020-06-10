@@ -24,7 +24,7 @@
     "ncp-manifest": "ncp source/manifest.json www/manifest.json",
     "ncp-sw": "ncp source/sw.js www/sw.js",
     "pug-cli": "pug source --pretty",
-    "stylus": "stylus source/css/*.styl source/src/4xx/*.styl && npm run pug-cli",
+    "stylus": "stylus source/css/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
     "vendor": "npm-run-all lazyload-js normalize-css clean-normalize animate-css clean-animate bootstrap-css clean-bootstrap",
     "normalize-css": "ncp node_modules/normalize.css/normalize.css source/css/_normalize.css",

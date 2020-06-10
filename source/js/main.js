@@ -11,7 +11,16 @@
   //             console.log 'Service Worker Failed to Register', err
   //             return
   //     return
-  var actionUrl, arrayDiv, colors, i, numOfWindows, randomColor, url, urlSeperator, urlSplit, value;
+  var actionUrl, arrayDiv, colors, i, numOfWindows, onElementClick, randomColor, url, urlSeperator, urlSplit, value;
+
+  onElementClick = function(event) {
+    var color, tokens;
+    console.log("hello!");
+    tokens = event.target.getAttribute("href").split("?");
+    console.log(tokens);
+    color = tokens[1];
+    return console.log(color);
+  };
 
   url = window.location.href;
 
@@ -30,9 +39,8 @@
     arrayDiv[i].className = 'block' + i;
     arrayDiv[i].className = 'color';
     arrayDiv[i].setAttribute('href', "?" + randomColor);
-    arrayDiv[i].addEventListener("click", function() {
-      return actionUrl(randomColor); // to fix
-    });
+    // arrayDiv[i].setAttribute 'color', "" + randomColor
+    arrayDiv[i].addEventListener("click", onElementClick); // to fix
     colors.appendChild(arrayDiv[i]);
     i++;
   }
