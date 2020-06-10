@@ -10,29 +10,38 @@
 #             return
 #     return
 
+
+onElementClick = (event) ->
+	console.log "hello!"
+	tokens = event.target.getAttribute("href").split("?")
+	console.log tokens
+	color = tokens[1]
+	console.log color
+
 url = window.location.href
 numOfWindows = 100
 arrayDiv = new Array
 colors = document.getElementById('colors')
 i = 0
 while i < numOfWindows
-  arrayDiv[i] = document.createElement('a')
-  arrayDiv[i].id = 'block' + i
-  arrayDiv[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-  arrayDiv[i].className = 'block' + i
-  arrayDiv[i].className = 'color'
-  arrayDiv[i].setAttribute 'href', "?" + randomColor
-  arrayDiv[i].addEventListener("click", -> actionUrl(randomColor)) # to fix
-  colors.appendChild arrayDiv[i]
-  i++;
+	arrayDiv[i] = document.createElement('a')
+	arrayDiv[i].id = 'block' + i
+	arrayDiv[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+	arrayDiv[i].className = 'block' + i
+	arrayDiv[i].className = 'color'
+	arrayDiv[i].setAttribute 'href', "?" + randomColor
+	# arrayDiv[i].setAttribute 'color', "" + randomColor
+	arrayDiv[i].addEventListener("click", onElementClick) # to fix
+	colors.appendChild arrayDiv[i]
+	i++;
 
 # Split URL
 urlSeperator = "?"
 if url.includes(urlSeperator)
-  urlSplit = url.split(urlSeperator).pop()
-  if urlSeperator < urlSplit
-    value = urlSplit
-    console.log("# Split URL:" + value)
+	urlSplit = url.split(urlSeperator).pop()
+	if urlSeperator < urlSplit
+		value = urlSplit
+		console.log("# Split URL:" + value)
 
 
 actionUrl = (color) ->
