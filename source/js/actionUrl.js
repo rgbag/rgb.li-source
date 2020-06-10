@@ -4,24 +4,30 @@
   var actionUrl;
 
   actionUrl = function(r, g, b) {
-    var arrayRemoveAll, parameterSeperator, updateUrl, url, values;
+    var arrayRemoveAll, updateUrl, url, urlSeperator, urlSplit, value;
+    console.log("actionUrl");
     // Setup
     // inputName = inputName || 'animate' # CSS Selector: input[name="animate"]
     // urlParameterName = urlParameterName || 'action' # URL Parameter: www/?action=A&B&C
     // urlSeperator = urlParameterName + '='
-    parameterSeperator = '-';
+    // parameterSeperator = '-'
     // inputSelector = 'input[name="' + inputName + '"]'
     // checkbox = document.querySelectorAll(inputSelector)
     // labelSelector = 'label'
     // label = document.querySelectorAll(labelSelector)
     url = window.location.href;
     // Split URL
-    // values = []
-    // if url.includes(urlSeperator)
-    // 	urlSplit = url.split(urlSeperator).pop()
-    // 	if urlSeperator < urlSplit
-    // 		values = urlSplit.split(parameterSeperator)
-    values = [r, g, b];
+    urlSeperator = "?";
+    if (url.includes(urlSeperator)) {
+      urlSplit = url.split(urlSeperator).pop();
+      if (urlSeperator < urlSplit) {
+        value = urlSplit;
+        console.log(value);
+      }
+    }
+    // Background Colro
+
+    // values = [r,g,b]
     // Activate Checkbox via URL Parameter
     // i = 0
     // checkbox.forEach ->
@@ -32,7 +38,7 @@
     // Add Event Listeners to all Labels 
     // i = 0
     // label.forEach -> 
-    // 	label[i].addEventListener("click", ->
+    // 	arrayDiv[i].addEventListener("click", ->
     // 		updateUrl()
     // 	)
     // 	i++
@@ -46,7 +52,7 @@
     // Update URL Parameter
     return updateUrl = function() {
       return setTimeout(function() {
-        var updatedUrlParameter, urlParameter;
+        var updatedUrlParameter;
         // Check all Checkboxes and update 'values'-Array
         // i = 0
         // checkbox.forEach ->
@@ -59,24 +65,27 @@
         // 	i++  
 
         // Join and push the fresh Values
-        urlParameter = values.join(parameterSeperator);
+        // urlParameter = values.join(parameterSeperator)
         // urlSep = urlSeperator
         // if !urlParameter
         // 	urlParameter = '.' # Current Directory (invisible in URL)
-        updatedUrlParameter = "?" + urlParameter;
+        r = r || 0;
+        g = g || 0;
+        b = b || 0;
+        updatedUrlParameter = "?" + "r" + r + "g" + g + "b" + b;
         return window.history.pushState(updatedUrlParameter, 'CACUPA', updatedUrlParameter);
       }, 0); // Lucky Quickfix
     };
   };
 
   
-  // updateUrl()
+// updateUrl()
 
-  // Call CACUPA
-  actionUrl();
+// Call CACUPA
+// actionUrl(47,47,47)
 
-  // Check URL über Service Worker, bis dahin "?" 
-// Oder dynamisch mit if Service Worker is true
-// rgb.li/r3g2b1
+// Check URL über Service Worker, bis dahin "?" 
+// Oder dynamisch mit if Service Worker is true...
+// rgb.li/rgb(2,1,3)
 
 }).call(this);

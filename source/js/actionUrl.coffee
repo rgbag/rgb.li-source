@@ -1,11 +1,11 @@
 # CSS Animation Checkbox URL Parameter Action CACUPA
 actionUrl = (r,g,b) ->
-
+	console.log("actionUrl")
 	# Setup
 	# inputName = inputName || 'animate' # CSS Selector: input[name="animate"]
 	# urlParameterName = urlParameterName || 'action' # URL Parameter: www/?action=A&B&C
 	# urlSeperator = urlParameterName + '='
-	parameterSeperator = '-'
+	# parameterSeperator = '-'
 	# inputSelector = 'input[name="' + inputName + '"]'
 	# checkbox = document.querySelectorAll(inputSelector)
 	# labelSelector = 'label'
@@ -13,14 +13,16 @@ actionUrl = (r,g,b) ->
 	url = window.location.href
 
 	# Split URL
-	# values = []
-	# if url.includes(urlSeperator)
-	# 	urlSplit = url.split(urlSeperator).pop()
-	# 	if urlSeperator < urlSplit
-	# 		values = urlSplit.split(parameterSeperator)
+	urlSeperator = "?"
+	if url.includes(urlSeperator)
+		urlSplit = url.split(urlSeperator).pop()
+		if urlSeperator < urlSplit
+			value = urlSplit
+			console.log(value)
 
-	values = [r,g,b]
+	# Background Colro
 
+	# values = [r,g,b]
 	# Activate Checkbox via URL Parameter
 	# i = 0
 	# checkbox.forEach ->
@@ -31,7 +33,7 @@ actionUrl = (r,g,b) ->
 	# Add Event Listeners to all Labels 
 	# i = 0
 	# label.forEach -> 
-	# 	label[i].addEventListener("click", ->
+	# 	arrayDiv[i].addEventListener("click", ->
 	# 		updateUrl()
 	# 	)
 	# 	i++
@@ -57,19 +59,22 @@ actionUrl = (r,g,b) ->
 			# 	i++  
 
 			# Join and push the fresh Values
-			urlParameter = values.join(parameterSeperator)
+			# urlParameter = values.join(parameterSeperator)
 			# urlSep = urlSeperator
 			# if !urlParameter
 			# 	urlParameter = '.' # Current Directory (invisible in URL)
-			updatedUrlParameter = "?" + urlParameter
+			r = r || 0
+			g = g || 0
+			b = b || 0
+			updatedUrlParameter = "?" + "r" + r + "g" + g + "b" + b
 			window.history.pushState(updatedUrlParameter, 'CACUPA', updatedUrlParameter)
 		, 0  # Lucky Quickfix
 	
 	# updateUrl()
 
 # Call CACUPA
-actionUrl()
+# actionUrl(47,47,47)
 
 # Check URL über Service Worker, bis dahin "?" 
-# Oder dynamisch mit if Service Worker is true
-# rgb.li/r3g2b1
+# Oder dynamisch mit if Service Worker is true...
+# rgb.li/rgb(2,1,3)

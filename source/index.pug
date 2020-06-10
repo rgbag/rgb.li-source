@@ -14,7 +14,9 @@ html(lang='en')
     body.fullscreen.noscript
         script.
             document.querySelector('body').classList.remove('noscript');
-        include src/index/indexContent.pug
+        
+        #colors.grid
+
         script 
             include js/main.js
-            include js/actionUrl.js
+            //- include js/actionUrl.js
