@@ -25,7 +25,6 @@
 
   onPageLoad = function() {
     debugLog("onPageLoad()");
-    isFullScreen();
     setup();
     return getUrlQuery(urlSeperator);
   };
@@ -46,10 +45,10 @@
     fullScreenState = 'unknown';
     if (fullScreenColor.style.height = '0px') {
       debugLog('isFullScreen() -> fullScreenColor.style.height = "0px"');
-      this.fullScreenState === false;
+      fullScreenState = true;
     } else {
       debugLog('isFullScreen() -> fullScreenColor.style.height = ' + fullScreenColor.style.height);
-      this.fullScreenState === true;
+      fullScreenState = false;
     }
     return fullScreenState;
   };
@@ -58,7 +57,7 @@
     var fullScreenColor;
     debugLog('stateSwitch()');
     if (isFullScreen()) {
-      console.log(isFullScreen());
+      debugLog('stateSwitch() -> if isFullScreen(): ' + isFullScreen());
       return home();
     } else {
       fullScreenColor = document.getElementById('fullScreenColor');
