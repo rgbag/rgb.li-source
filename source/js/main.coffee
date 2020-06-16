@@ -10,128 +10,136 @@
 #             return
 #     return
 
+urlSeperator = '#'
+
+debugLog = true
+debugLog = (log) ->
+    if debugLog
+        console.log(log)
+
+onPageLoad = () ->
+    debugLog("onPageLoad()")
+    isFullScreen()
+    setup()
+    getUrlQuery(urlSeperator)
+
+setup = () ->
+    debugLog("setup()")
+    createColorGrid()
+    window.addEventListener 'popstate', (e) -> 
+        debugLog('setup() -> popstate event')
+        stateSwitch()
+
+isFullScreen = () ->
+    debugLog('isFullScreen()')
+    fullScreenColor = document.getElementById('fullScreenColor')
+    fullScreenState = 'unknown'
+    if fullScreenColor.style.height = '0px'
+        debugLog('isFullScreen() -> fullScreenColor.style.height = "0px"')
+        this.fullScreenState == false
+    else
+        debugLog('isFullScreen() -> fullScreenColor.style.height = ' + fullScreenColor.style.height)
+        this.fullScreenState == true
+    return fullScreenState
+
+stateSwitch = () ->
+    debugLog('stateSwitch()')
+    if isFullScreen()
+        console.log(isFullScreen())
+        home()
+    else
+        fullScreenColor = document.getElementById('fullScreenColor')
+        fullScreenColor.style.height = '100vh'
+
+home = () ->
+    debugLog('home()')
+    disablefullScreenColor('/.')
+
+windowHistoryPushState = (state3) ->
+    debugLog('windowHistoryPushState("' + state3 + '")')
+    window.history.pushState(state3, state3, state3)
+    debugLog('windowHistoryPushState("' + state3 + '") -> window.history.pushState("' + state3 + '", "' + state3 + '", "' + state3 + '")')
+    debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state)
+
+enablefullScreenColor = (color) ->
+    debugLog("enablefullScreenColor(" + color + ")")
+    fullScreenColor = document.getElementById('fullScreenColor')
+    fullScreenColor.style.backgroundColor = color
+    fullScreenColor.style.height = '100vh'
+    windowHistoryPushState(color)
+
+disablefullScreenColor = (pushState) ->
+    fullScreenColor = document.getElementById('fullScreenColor')
+    fullScreenColor.style.backgroundColor = null
+    fullScreenColor.style.height = '0px'
+    # windowHistoryPushState(pushState)
 
 onElementClick = (event) ->
-	console.log "hello!"
-	tokens = event.target.getAttribute("href").split("?")
-	console.log tokens
-	color = tokens[1]
-	console.log color
+    debugLog('onElementClick(' + event + ')')
+    tokens = event.target.getAttribute("href").split("#")
+    color = "#" + tokens[1]
+    enablefullScreenColor(color)
 
-url = window.location.href
-numOfWindows = 100
-arrayDiv = new Array
-colors = document.getElementById('colors')
-i = 0
-while i < numOfWindows
-	arrayDiv[i] = document.createElement('a')
-	arrayDiv[i].id = 'block' + i
-	arrayDiv[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-	arrayDiv[i].className = 'block' + i
-	arrayDiv[i].className = 'color'
-	arrayDiv[i].setAttribute 'href', "?" + randomColor
-	# arrayDiv[i].setAttribute 'color', "" + randomColor
-	arrayDiv[i].addEventListener("click", onElementClick) # to fix
-	colors.appendChild arrayDiv[i]
-	i++;
+getUrlQuery = (urlSeperator) ->
+    debugLog('getUrlQuery("' + urlSeperator + '")')
+    urlSeperator = urlSeperator || "?"
+    url = window.location.href
+    if url.includes(urlSeperator)
+        debugLog('getUrlQuery -> if url.includes(' + urlSeperator + ')')
+        query = '#' + url.split(urlSeperator)[1]
+        validateColorCode(query)
 
-# Split URL
-urlSeperator = "?"
-if url.includes(urlSeperator)
-	urlSplit = url.split(urlSeperator).pop()
-	if urlSeperator < urlSplit
-		value = urlSplit
-		console.log("# Split URL:" + value)
+validateColorCode = (colorCode) ->
+    debugLog('validateColorCode(' + colorCode + ')')
+    if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
+        debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+        enablefullScreenColor(colorCode)
+
+createColorGrid = () ->
+    debugLog('createColorGrid()')
+    colorSquares = 1000
+    divArray = new Array
+    colors = document.getElementById('colors')
+    i = 0
+    while i < colorSquares
+        divArray[i] = document.createElement('div')
+        divArray[i].id = 'block' + i
+        divArray[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+        divArray[i].className = 'block' + i
+        divArray[i].className = 'color'
+        divArray[i].setAttribute 'href', "" + randomColor
+        divArray[i].addEventListener("click", onElementClick) # fixed by Lenny
+        colors.appendChild divArray[i]
+        i++;
+
+onPageLoad()
+
+# FUNCTIONS
+
+# Config
+
+# Generate Color Grid
+    # Animate
+
+# Set URL onClick
+
+# Get Color from URL
+
+# Open Color Screen with Menu
+
+# Open Fullscreen Color
+
+# Menu
+    # Change Color
+
+# Save Color to Favorites
+
+# State Management
+    # window.history
+    # state variable
+
+# Die ersten Farben manuell festlegen!
+
+# Backwards compatible, future proof :)
 
 
-actionUrl = (color) ->
-	console.log("actionUrl: " + color)
-	# Setup
-	# inputName = inputName || 'animate' # CSS Selector: input[name="animate"]
-	# urlParameterName = urlParameterName || 'action' # URL Parameter: www/?action=A&B&C
-	# urlSeperator = urlParameterName + '='
-	# parameterSeperator = '-'
-	# inputSelector = 'input[name="' + inputName + '"]'
-	# checkbox = document.querySelectorAll(inputSelector)
-	# labelSelector = 'label'
-	# label = document.querySelectorAll(labelSelector)
-
-
-	# Background Colro
-
-	# values = [r,g,b]
-	# Activate Checkbox via URL Parameter
-	# i = 0
-	# checkbox.forEach ->
-	# 	if values.includes(checkbox[i].value)
-	# 		checkbox[i].checked = true
-	# 	i++
-
-	# Add Event Listeners to all Labels 
-	# i = 0
-	# label.forEach -> 
-	# 	arrayDiv[i].addEventListener("click", ->
-	# 		updateUrl()
-	# 	)
-	# 	i++
-
-	# # Completely remove a Value from an Array
-	# arrayRemoveAll = (array, value) ->
-	# 	array.filter (val) ->
-	# 		val != value
-
-	# # Update URL Parameter
-	# updateUrl = ->
-	# 	setTimeout ->
-
-	# 		# Check all Checkboxes and update 'values'-Array
-	# 		# i = 0
-	# 		# checkbox.forEach ->
-	# 		# 	if (checkbox[i].checked)
-	# 		# 		if !values.includes(checkbox[i].value)
-	# 		# 			values.push(checkbox[i].value)
-	# 		# 	else
-	# 		# 		if values.includes(checkbox[i].value)
-	# 		# 			values = arrayRemoveAll(values, checkbox[i].value)
-	# 		# 	i++  
-
-	# 		# Join and push the fresh Values
-	# 		# urlParameter = values.join(parameterSeperator)
-	# 		# urlSep = urlSeperator
-	# 		# if !urlParameter
-	# 		# 	urlParameter = '.' # Current Directory (invisible in URL)
-	# 		r = r || 0
-	# 		g = g || 0
-	# 		b = b || 0
-	# 		updatedUrlParameter = "?" + "r" + r + "g" + g + "b" + b
-	# 		window.history.pushState(updatedUrlParameter, 'CACUPA', updatedUrlParameter)
-
-# this.successClicker = () ->
-#     if localStorage.hasOwnProperty('successToday')
-#         if localStorage.successToday < getToday()
-#             localStorage.successToday = getToday()
-#             counterPlus()
-#         else
-#             console.log('You have allready succeeded today!')
-#     else
-#         populateStorage()
-#     return
-
-# populateStorage = () ->
-#     localStorage.successToday = getToday()
-#     localStorage.successCounter = 1
-
-# counterPlus = () ->
-#     if localStorage.successCounter > 0
-#         localStorage.successCounter++
-#     else
-#         console.log('That should not have happened.')
-#     return
-
-# getToday = () ->
-#     date = new Date()
-#     year = date.getFullYear()
-#     month = (if (date.getMonth() + 1 < 10) then '0' else '') + (date.getMonth() + 1)
-#     day = (if (date.getDate() < 10) then '0' else '') + date.getDate()
-#     todayInt = parseInt(year + month + day)
-#     return todayInt

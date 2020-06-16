@@ -11,9 +11,12 @@ html(lang='en')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         style
             include css/index.css
-    body.fullscreen.noscript
+
+    body#fullscreen.fullscreen.noscript
         script.
             document.querySelector('body').classList.remove('noscript');
+
+        #fullScreenColor
         
         #colors.grid
 
