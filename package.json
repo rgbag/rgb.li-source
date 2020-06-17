@@ -10,8 +10,8 @@
   },
   "scripts": {
     "test": "npm start",
-    "start": "npm-run-all vendor && concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-start",
-    "build": "npm-run-all vendor stylus coffee purgecss pug-cli www-dist browser-sync-build",
+    "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-start",
+    "build": "npm-run-all stylus coffee purgecss pug-cli www-dist browser-sync-build",
     "browser-sync-start": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync.config.js",
     "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync.config.js --no-notify",
     "www-dist": "npm-run-all rm-www minifier ncp-img ncp-font ncp-fav ncp-manifest ncp-sw",
@@ -26,14 +26,6 @@
     "pug-cli": "pug source --pretty",
     "stylus": "stylus source/css/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
-    "vendor": "npm-run-all lazyload-js normalize-css clean-normalize animate-css clean-animate bootstrap-css clean-bootstrap",
-    "normalize-css": "ncp node_modules/normalize.css/normalize.css source/css/_normalize.css",
-    "animate-css": "ncp node_modules/animate.css/animate.css source/css/_animate.css",
-    "bootstrap-css": "ncp node_modules/bootstrap/dist/css/bootstrap.css source/css/_bootstrap.css",
-    "lazyload-js": "ncp node_modules/vanilla-lazyload/dist/lazyload.js source/js/lazyload.js",
-    "clean-normalize": "cleancss -O1 'specialComments:0' source/css/_normalize.css --output source/css/_normalize.css",
-    "clean-bootstrap": "cleancss -O1 'specialComments:0' source/css/_bootstrap.css --output source/css/_bootstrap.css",
-    "clean-animate": "cleancss -O1 'specialComments:0' source/css/_animate.css --output source/css/_animate.css",
     "stop": "echo 'killall node' && killall node",
     "watch-pug-cli": "npm-watch pug-cli",
     "watch-stylus": "npm-watch stylus",
@@ -41,23 +33,17 @@
     "concurrently": "concurrently"
   },
   "devDependencies": {
-    "animate.css": "^3.7.2",
-    "bootstrap": "^4.3.1",
     "browser-sync": "^2.26.7",
-    "clean-css": "^4.2.1",
-    "clean-css-cli": "^4.3.0",
     "coffeescript": "^2.4.1",
     "concurrently": "^5.2.0",
     "html-minifier": "^4.0.0",
     "ncp": "^2.0.0",
-    "normalize.css": "^8.0.1",
     "npm-run-all": "^4.1.5",
     "npm-watch": "^0.6.0",
     "pug-cli": "^1.0.0-alpha6",
     "purgecss": "^1.4.1",
     "rimraf": "^3.0.0",
-    "stylus": "^0.54.7",
-    "vanilla-lazyload": "^12.3.0"
+    "stylus": "^0.54.7"
   },
   "watch": {
     "stylus": {
@@ -78,9 +64,5 @@
       ],
       "extensions": "coffee"
     }
-  },
-  "dependencies": {
-    "jquery": "^3.5.1",
-    "popper.js": "^1.16.0"
   }
 }
