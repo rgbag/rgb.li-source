@@ -10,30 +10,71 @@
 #             return
 #     return
 
+############################################################
 urlSeperator = '#'
 
+############################################################
 debugLog = true
 debugLog = (log) ->
     if debugLog
         console.log(log)
 
+
+############################################################
 onPageLoad = () ->
     debugLog("onPageLoad()")
     setup()
     getUrlQuery(urlSeperator)
 
+############################################################
+#region setup
 setup = () ->
     debugLog("setup()")
     createColorGrid()
+    ## What is this supposed to do?
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
-        stateSwitch()
+        adjustDisplayState()
 
+############################################################
+#region createColorGrid
+createColorGrid = () ->
+    debugLog('createColorGrid()')
+    colorSquares = 1000
+    divArray = new Array
+    colors = document.getElementById('colors')
+    i = 0
+    while i < colorSquares
+        divArray[i] = document.createElement('div')
+        divArray[i].id = 'block' + i
+        divArray[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+        divArray[i].className = 'block' + i
+        divArray[i].className = 'color'
+        divArray[i].setAttribute 'href', "" + randomColor
+        divArray[i].addEventListener("click", onElementClick) # fixed by Lenny
+        colors.appendChild divArray[i]
+        i++;
+
+#endregion
+
+
+############################################################
+#region displayStateFunctions
+adjustDisplayState = () ->
+    debugLog('adjustDisplayState()')
+    if isFullScreen()
+        debugLog('adjustDisplayState() -> if isFullScreen(): ' + isFullScreen())
+        home()
+    else
+        fullScreenColor = document.getElementById('fullScreenColor')
+        fullScreenColor.style.height = '100vh'
+
+############################################################
 isFullScreen = () ->
     debugLog('isFullScreen()')
     fullScreenColor = document.getElementById('fullScreenColor')
     fullScreenState = 'unknown'
-    if fullScreenColor.style.height = '0px'
+    if fullScreenColor.style.height = '0px' #bug? this is always true^^..
         debugLog('isFullScreen() -> fullScreenColor.style.height = "0px"')
         fullScreenState = true
     else
@@ -41,25 +82,19 @@ isFullScreen = () ->
         fullScreenState = false
     return fullScreenState
 
-stateSwitch = () ->
-    debugLog('stateSwitch()')
-    if isFullScreen()
-        debugLog('stateSwitch() -> if isFullScreen(): ' + isFullScreen())
-        home()
-    else
-        fullScreenColor = document.getElementById('fullScreenColor')
-        fullScreenColor.style.height = '100vh'
-
+############################################################
 home = () ->
     debugLog('home()')
     disablefullScreenColor('/.')
 
+############################################################
 windowHistoryPushState = (state3) ->
     debugLog('windowHistoryPushState("' + state3 + '")')
     window.history.pushState(state3, state3, state3)
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.pushState("' + state3 + '", "' + state3 + '", "' + state3 + '")')
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state)
 
+############################################################
 enablefullScreenColor = (color) ->
     debugLog("enablefullScreenColor(" + color + ")")
     fullScreenColor = document.getElementById('fullScreenColor')
@@ -67,11 +102,16 @@ enablefullScreenColor = (color) ->
     fullScreenColor.style.height = '100vh'
     windowHistoryPushState(color)
 
+############################################################
 disablefullScreenColor = (pushState) ->
     fullScreenColor = document.getElementById('fullScreenColor')
     fullScreenColor.style.backgroundColor = null
     fullScreenColor.style.height = '0px'
     # windowHistoryPushState(pushState)
+
+#endregion
+
+#endregion
 
 onElementClick = (event) ->
     debugLog('onElementClick(' + event + ')')
@@ -94,22 +134,6 @@ validateColorCode = (colorCode) ->
         debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
         enablefullScreenColor(colorCode)
 
-createColorGrid = () ->
-    debugLog('createColorGrid()')
-    colorSquares = 1000
-    divArray = new Array
-    colors = document.getElementById('colors')
-    i = 0
-    while i < colorSquares
-        divArray[i] = document.createElement('div')
-        divArray[i].id = 'block' + i
-        divArray[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-        divArray[i].className = 'block' + i
-        divArray[i].className = 'color'
-        divArray[i].setAttribute 'href', "" + randomColor
-        divArray[i].addEventListener("click", onElementClick) # fixed by Lenny
-        colors.appendChild divArray[i]
-        i++;
 
 onPageLoad()
 

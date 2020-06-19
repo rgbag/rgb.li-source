@@ -11,10 +11,13 @@
   //             console.log 'Service Worker Failed to Register', err
   //             return
   //     return
-  var createColorGrid, debugLog, disablefullScreenColor, enablefullScreenColor, getUrlQuery, home, isFullScreen, onElementClick, onPageLoad, setup, stateSwitch, urlSeperator, validateColorCode, windowHistoryPushState;
+
+  //###########################################################
+  var adjustDisplayState, createColorGrid, debugLog, disablefullScreenColor, enablefullScreenColor, getUrlQuery, home, isFullScreen, onElementClick, onPageLoad, setup, urlSeperator, validateColorCode, windowHistoryPushState;
 
   urlSeperator = '#';
 
+  //###########################################################
   debugLog = true;
 
   debugLog = function(log) {
@@ -23,27 +26,68 @@
     }
   };
 
+  //###########################################################
   onPageLoad = function() {
     debugLog("onPageLoad()");
     setup();
     return getUrlQuery(urlSeperator);
   };
 
+  //###########################################################
+  //region setup
   setup = function() {
     debugLog("setup()");
     createColorGrid();
+    //# What is this supposed to do?
     return window.addEventListener('popstate', function(e) {
       debugLog('setup() -> popstate event');
-      return stateSwitch();
+      return adjustDisplayState();
     });
   };
 
+  //###########################################################
+  //region createColorGrid
+  createColorGrid = function() {
+    var colorSquares, colors, divArray, i, randomColor, results;
+    debugLog('createColorGrid()');
+    colorSquares = 1000;
+    divArray = new Array;
+    colors = document.getElementById('colors');
+    i = 0;
+    results = [];
+    while (i < colorSquares) {
+      divArray[i] = document.createElement('div');
+      divArray[i].id = 'block' + i;
+      divArray[i].style.backgroundColor = randomColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+      divArray[i].className = 'block' + i;
+      divArray[i].className = 'color';
+      divArray[i].setAttribute('href', "" + randomColor);
+      divArray[i].addEventListener("click", onElementClick); // fixed by Lenny
+      colors.appendChild(divArray[i]);
+      results.push(i++);
+    }
+    return results;
+  };
+
+  adjustDisplayState = function() {
+    var fullScreenColor;
+    debugLog('adjustDisplayState()');
+    if (isFullScreen()) {
+      debugLog('adjustDisplayState() -> if isFullScreen(): ' + isFullScreen());
+      return home();
+    } else {
+      fullScreenColor = document.getElementById('fullScreenColor');
+      return fullScreenColor.style.height = '100vh';
+    }
+  };
+
+  //###########################################################
   isFullScreen = function() {
     var fullScreenColor, fullScreenState;
     debugLog('isFullScreen()');
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenState = 'unknown';
-    if (fullScreenColor.style.height = '0px') {
+    if (fullScreenColor.style.height = '0px') { //bug? this is always true^^..
       debugLog('isFullScreen() -> fullScreenColor.style.height = "0px"');
       fullScreenState = true;
     } else {
@@ -53,23 +97,13 @@
     return fullScreenState;
   };
 
-  stateSwitch = function() {
-    var fullScreenColor;
-    debugLog('stateSwitch()');
-    if (isFullScreen()) {
-      debugLog('stateSwitch() -> if isFullScreen(): ' + isFullScreen());
-      return home();
-    } else {
-      fullScreenColor = document.getElementById('fullScreenColor');
-      return fullScreenColor.style.height = '100vh';
-    }
-  };
-
+  //###########################################################
   home = function() {
     debugLog('home()');
     return disablefullScreenColor('/.');
   };
 
+  //###########################################################
   windowHistoryPushState = function(state3) {
     debugLog('windowHistoryPushState("' + state3 + '")');
     window.history.pushState(state3, state3, state3);
@@ -77,6 +111,7 @@
     return debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state);
   };
 
+  //###########################################################
   enablefullScreenColor = function(color) {
     var fullScreenColor;
     debugLog("enablefullScreenColor(" + color + ")");
@@ -86,6 +121,7 @@
     return windowHistoryPushState(color);
   };
 
+  //###########################################################
   disablefullScreenColor = function(pushState) {
     var fullScreenColor;
     fullScreenColor = document.getElementById('fullScreenColor');
@@ -94,6 +130,10 @@
   };
 
   // windowHistoryPushState(pushState)
+
+  //endregion
+
+  //endregion
   onElementClick = function(event) {
     var color, tokens;
     debugLog('onElementClick(' + event + ')');
@@ -120,28 +160,6 @@
       debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
       return enablefullScreenColor(colorCode);
     }
-  };
-
-  createColorGrid = function() {
-    var colorSquares, colors, divArray, i, randomColor, results;
-    debugLog('createColorGrid()');
-    colorSquares = 1000;
-    divArray = new Array;
-    colors = document.getElementById('colors');
-    i = 0;
-    results = [];
-    while (i < colorSquares) {
-      divArray[i] = document.createElement('div');
-      divArray[i].id = 'block' + i;
-      divArray[i].style.backgroundColor = randomColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-      divArray[i].className = 'block' + i;
-      divArray[i].className = 'color';
-      divArray[i].setAttribute('href', "" + randomColor);
-      divArray[i].addEventListener("click", onElementClick); // fixed by Lenny
-      colors.appendChild(divArray[i]);
-      results.push(i++);
-    }
-    return results;
   };
 
   onPageLoad();
