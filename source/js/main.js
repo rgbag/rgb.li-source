@@ -13,13 +13,19 @@
   //     return
 
   //###########################################################
-  var adjustDisplayState, createColorGrid, debugLog, disablefullScreenColor, enablefullScreenColor, getUrlQuery, home, isFullScreen, onElementClick, onPageLoad, setup, urlSeperator, validateColorCode, windowHistoryPushState;
+  //region config
+  var adjustDisplayState, colorCodeFromURL, createColorGrid, createColorSquare, debugLog, disablefullScreenColor, enablefullScreenColor, generateRandomColorCode, home, isFullScreen, isValidColorCode, nrColorSquares, onElementClick, onPageLoad, setup, urlSeperator, useColorCode, useColorCodeFromQueryURL, windowHistoryPushState;
 
   urlSeperator = '#';
+
+  nrColorSquares = 1000;
 
   //###########################################################
   debugLog = true;
 
+  //endregion
+
+  //###########################################################
   debugLog = function(log) {
     if (debugLog) {
       return console.log(log);
@@ -30,7 +36,7 @@
   onPageLoad = function() {
     debugLog("onPageLoad()");
     setup();
-    return getUrlQuery(urlSeperator);
+    useColorCodeFromQueryURL();
   };
 
   //###########################################################
@@ -39,7 +45,7 @@
     debugLog("setup()");
     createColorGrid();
     //# What is this supposed to do?
-    return window.addEventListener('popstate', function(e) {
+    window.addEventListener('popstate', function(e) {
       debugLog('setup() -> popstate event');
       return adjustDisplayState();
     });
@@ -48,36 +54,54 @@
   //###########################################################
   //region createColorGrid
   createColorGrid = function() {
-    var colorSquares, colors, divArray, i, randomColor, results;
+    var color, colors, divArray, i, j, ref, square;
     debugLog('createColorGrid()');
-    colorSquares = 1000;
-    divArray = new Array;
+    divArray = [];
     colors = document.getElementById('colors');
-    i = 0;
-    results = [];
-    while (i < colorSquares) {
-      divArray[i] = document.createElement('div');
-      divArray[i].id = 'block' + i;
-      divArray[i].style.backgroundColor = randomColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-      divArray[i].className = 'block' + i;
-      divArray[i].className = 'color';
-      divArray[i].setAttribute('href', "" + randomColor);
-      divArray[i].addEventListener("click", onElementClick); // fixed by Lenny
-      colors.appendChild(divArray[i]);
-      results.push(i++);
+    for (i = j = 0, ref = nrColorSquares; (0 <= ref ? j <= ref : j >= ref); i = 0 <= ref ? ++j : --j) {
+      color = generateRandomColorCode();
+      square = createColorSquare(color);
+      divArray[i] = square;
+      colors.appendChild(square);
     }
-    return results;
   };
 
+  //###########################################################
+  createColorSquare = function(color) {
+    var el;
+    el = document.createElement('div');
+    el.style.backgroundColor = color;
+    el.className = "color";
+    el.setAttribute('href', "" + color);
+    el.addEventListener("click", onElementClick); // fixed by Lenny
+    return el;
+  };
+
+  //###########################################################
+  onElementClick = function(event) {
+    var color, url;
+    debugLog('onElementClick(' + event + ')');
+    url = event.target.getAttribute("href");
+    if (!url.includes(urlSeperator)) {
+      return;
+    }
+    color = colorCodeFromURL(url);
+    enablefullScreenColor(color);
+  };
+
+  //endregion
+
+  //###########################################################
+  //region displayStateFunctions
   adjustDisplayState = function() {
     var fullScreenColor;
     debugLog('adjustDisplayState()');
     if (isFullScreen()) {
       debugLog('adjustDisplayState() -> if isFullScreen(): ' + isFullScreen());
-      return home();
+      home();
     } else {
       fullScreenColor = document.getElementById('fullScreenColor');
-      return fullScreenColor.style.height = '100vh';
+      fullScreenColor.style.height = '100vh';
     }
   };
 
@@ -100,7 +124,7 @@
   //###########################################################
   home = function() {
     debugLog('home()');
-    return disablefullScreenColor('/.');
+    disablefullScreenColor('/.');
   };
 
   //###########################################################
@@ -108,7 +132,7 @@
     debugLog('windowHistoryPushState("' + state3 + '")');
     window.history.pushState(state3, state3, state3);
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.pushState("' + state3 + '", "' + state3 + '", "' + state3 + '")');
-    return debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state);
+    debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state);
   };
 
   //###########################################################
@@ -118,7 +142,7 @@
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = color;
     fullScreenColor.style.height = '100vh';
-    return windowHistoryPushState(color);
+    windowHistoryPushState(color);
   };
 
   //###########################################################
@@ -126,70 +150,56 @@
     var fullScreenColor;
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = null;
-    return fullScreenColor.style.height = '0px';
+    fullScreenColor.style.height = '0px';
   };
 
+  //endregion
+
+  //endregion
+
+  //###########################################################
+  //region useColorCodeFromURL
   // windowHistoryPushState(pushState)
-
-  //endregion
-
-  //endregion
-  onElementClick = function(event) {
-    var color, tokens;
-    debugLog('onElementClick(' + event + ')');
-    tokens = event.target.getAttribute("href").split("#");
-    color = "#" + tokens[1];
-    return enablefullScreenColor(color);
-  };
-
-  getUrlQuery = function(urlSeperator) {
-    var query, url;
-    debugLog('getUrlQuery("' + urlSeperator + '")');
+  useColorCodeFromQueryURL = function() {
+    var code, url;
+    debugLog('useColorCodeFromQueryURL("' + urlSeperator + '")');
     urlSeperator = urlSeperator || "?";
     url = window.location.href;
-    if (url.includes(urlSeperator)) {
-      debugLog('getUrlQuery -> if url.includes(' + urlSeperator + ')');
-      query = '#' + url.split(urlSeperator)[1];
-      return validateColorCode(query);
+    if (!url.includes(urlSeperator)) {
+      return;
+    }
+    debugLog('useColorCodeFromQueryURL -> url.includes(' + urlSeperator + ')');
+    code = colorCodeFromURL(url);
+    useColorCode(code);
+  };
+
+  useColorCode = function(colorCode) {
+    debugLog('useColorCode(' + colorCode + ')');
+    if (isValidColorCode(colorCode)) {
+      debugLog('useColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
+      enablefullScreenColor(colorCode);
     }
   };
 
-  validateColorCode = function(colorCode) {
-    debugLog('validateColorCode(' + colorCode + ')');
-    if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
-      return enablefullScreenColor(colorCode);
-    }
+  //endregion
+
+  //###########################################################
+  //region utilFunctions
+  isValidColorCode = function(colorCode) {
+    return /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode);
   };
 
+  generateRandomColorCode = function() {
+    return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+  };
+
+  colorCodeFromURL = function(url) {
+    return '#' + url.split(urlSeperator)[1];
+  };
+
+  //endregion
+
+  //###########################################################
   onPageLoad();
-
-  // FUNCTIONS
-
-// Config
-
-// Generate Color Grid
-// Animate
-
-// Set URL onClick
-
-// Get Color from URL
-
-// Open Color Screen with Menu
-
-// Open Fullscreen Color
-
-// Menu
-// Change Color
-
-// Save Color to Favorites
-
-// State Management
-// window.history
-// state variable
-
-// Die ersten Farben manuell festlegen!
-
-// Backwards compatible, future proof :)
 
 }).call(this);

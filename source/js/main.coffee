@@ -11,20 +11,26 @@
 #     return
 
 ############################################################
+#region config
 urlSeperator = '#'
+nrColorSquares = 1000
 
 ############################################################
 debugLog = true
+
+#endregion
+
+############################################################
 debugLog = (log) ->
     if debugLog
         console.log(log)
-
 
 ############################################################
 onPageLoad = () ->
     debugLog("onPageLoad()")
     setup()
-    getUrlQuery(urlSeperator)
+    useColorCodeFromQueryURL()
+    return
 
 ############################################################
 #region setup
@@ -35,25 +41,42 @@ setup = () ->
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
         adjustDisplayState()
+    return
 
 ############################################################
 #region createColorGrid
 createColorGrid = () ->
     debugLog('createColorGrid()')
-    colorSquares = 1000
-    divArray = new Array
+    
+    divArray = []
     colors = document.getElementById('colors')
-    i = 0
-    while i < colorSquares
-        divArray[i] = document.createElement('div')
-        divArray[i].id = 'block' + i
-        divArray[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-        divArray[i].className = 'block' + i
-        divArray[i].className = 'color'
-        divArray[i].setAttribute 'href', "" + randomColor
-        divArray[i].addEventListener("click", onElementClick) # fixed by Lenny
-        colors.appendChild divArray[i]
-        i++;
+
+    for i in [0..nrColorSquares]
+        color = generateRandomColorCode()
+        square = createColorSquare(color)
+        divArray[i] = square
+        colors.appendChild square
+
+    return
+
+############################################################
+createColorSquare = (color) ->
+    el = document.createElement('div')
+    el.style.backgroundColor = color
+    el.className = "color"
+    el.setAttribute 'href', "" + color
+    el.addEventListener("click", onElementClick) # fixed by Lenny
+    return el
+
+############################################################
+onElementClick = (event) ->
+    debugLog('onElementClick(' + event + ')')
+    url = event.target.getAttribute("href")
+    return unless url.includes(urlSeperator)
+
+    color = colorCodeFromURL(url)
+    enablefullScreenColor(color)
+    return
 
 #endregion
 
@@ -68,6 +91,7 @@ adjustDisplayState = () ->
     else
         fullScreenColor = document.getElementById('fullScreenColor')
         fullScreenColor.style.height = '100vh'
+    return
 
 ############################################################
 isFullScreen = () ->
@@ -86,6 +110,7 @@ isFullScreen = () ->
 home = () ->
     debugLog('home()')
     disablefullScreenColor('/.')
+    return
 
 ############################################################
 windowHistoryPushState = (state3) ->
@@ -93,6 +118,7 @@ windowHistoryPushState = (state3) ->
     window.history.pushState(state3, state3, state3)
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.pushState("' + state3 + '", "' + state3 + '", "' + state3 + '")')
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state)
+    return
 
 ############################################################
 enablefullScreenColor = (color) ->
@@ -101,6 +127,7 @@ enablefullScreenColor = (color) ->
     fullScreenColor.style.backgroundColor = color
     fullScreenColor.style.height = '100vh'
     windowHistoryPushState(color)
+    return
 
 ############################################################
 disablefullScreenColor = (pushState) ->
@@ -108,61 +135,45 @@ disablefullScreenColor = (pushState) ->
     fullScreenColor.style.backgroundColor = null
     fullScreenColor.style.height = '0px'
     # windowHistoryPushState(pushState)
+    return
 
 #endregion
 
 #endregion
 
-onElementClick = (event) ->
-    debugLog('onElementClick(' + event + ')')
-    tokens = event.target.getAttribute("href").split("#")
-    color = "#" + tokens[1]
-    enablefullScreenColor(color)
+############################################################
+#region useColorCodeFromURL
+useColorCodeFromQueryURL = () ->
+    debugLog('useColorCodeFromQueryURL("' + urlSeperator + '")')
 
-getUrlQuery = (urlSeperator) ->
-    debugLog('getUrlQuery("' + urlSeperator + '")')
     urlSeperator = urlSeperator || "?"
     url = window.location.href
-    if url.includes(urlSeperator)
-        debugLog('getUrlQuery -> if url.includes(' + urlSeperator + ')')
-        query = '#' + url.split(urlSeperator)[1]
-        validateColorCode(query)
+    return unless url.includes(urlSeperator)
 
-validateColorCode = (colorCode) ->
-    debugLog('validateColorCode(' + colorCode + ')')
-    if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
-        debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+    debugLog('useColorCodeFromQueryURL -> url.includes(' + urlSeperator + ')')
+    code = colorCodeFromURL(url)
+    useColorCode(code)
+    
+    return
+
+useColorCode = (colorCode) ->
+    debugLog('useColorCode(' + colorCode + ')')
+    if isValidColorCode(colorCode)
+        debugLog('useColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
         enablefullScreenColor(colorCode)
+    return
 
+#endregion
 
+############################################################
+#region utilFunctions
+isValidColorCode = (colorCode) -> /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
+
+generateRandomColorCode = -> '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+
+colorCodeFromURL = (url) ->  '#' + url.split(urlSeperator)[1]
+
+#endregion
+
+############################################################
 onPageLoad()
-
-# FUNCTIONS
-
-# Config
-
-# Generate Color Grid
-    # Animate
-
-# Set URL onClick
-
-# Get Color from URL
-
-# Open Color Screen with Menu
-
-# Open Fullscreen Color
-
-# Menu
-    # Change Color
-
-# Save Color to Favorites
-
-# State Management
-    # window.history
-    # state variable
-
-# Die ersten Farben manuell festlegen!
-
-# Backwards compatible, future proof :)
-
-
