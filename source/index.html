@@ -8,7 +8,75 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/icon.png">
     <meta name="description" content="RGB Color Plate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>body {
+    <style>#__bs_notify__ {
+  top: auto !important;
+  bottom: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 0 !important;
+  color: #fff !important;
+  width: 100% !important;
+  background-color: #32cd32 !important;
+  animation-name: browsersync-notification !important;
+  animation-duration: 2000ms !important;
+  animation-timing-function: ease !important;
+}
+@-moz-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+body {
   font-family: sans-serif;
   background-color: #000;
 }
@@ -19,6 +87,10 @@ html,
   margin: 0;
   padding: 0;
   width: 100%;
+}
+.container {
+  margin: auto;
+  text-align: center;
 }
 .title {
   font-size: 3rem;
@@ -138,6 +210,7 @@ html,
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = color;
     fullScreenColor.style.height = '100vh';
+    document.getElementById('fullscreen').style.overflow = 'hidden';
     return windowHistoryPushState(color);
   };
 
@@ -146,6 +219,7 @@ html,
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = null;
     fullScreenColor.style.height = '0px';
+    document.getElementById('fullscreen').style.overflow = null;
     return window.history.replaceState(null, null, window.location.pathname);
   };
 
@@ -241,6 +315,8 @@ html,
 // Backwards compatible, future proof :)
 
 // pixel perfect squares (and elements)
+
+// Browser-Sync Bug
 
 }).call(this);
 

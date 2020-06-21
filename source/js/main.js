@@ -82,6 +82,7 @@
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = color;
     fullScreenColor.style.height = '100vh';
+    document.getElementById('fullscreen').style.overflow = 'hidden';
     return windowHistoryPushState(color);
   };
 
@@ -90,6 +91,7 @@
     fullScreenColor = document.getElementById('fullScreenColor');
     fullScreenColor.style.backgroundColor = null;
     fullScreenColor.style.height = '0px';
+    document.getElementById('fullscreen').style.overflow = null;
     return window.history.replaceState(null, null, window.location.pathname);
   };
 
@@ -185,5 +187,7 @@
 // Backwards compatible, future proof :)
 
 // pixel perfect squares (and elements)
+
+// Browser-Sync Bug
 
 }).call(this);

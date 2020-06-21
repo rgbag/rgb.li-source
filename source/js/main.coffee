@@ -64,12 +64,14 @@ enableFullScreenColor = (color) ->
     fullScreenColor = document.getElementById('fullScreenColor')
     fullScreenColor.style.backgroundColor = color
     fullScreenColor.style.height = '100vh'
+    document.getElementById('fullscreen').style.overflow = 'hidden'
     windowHistoryPushState(color)
 
 disableFullScreenColor = (pushState) ->
     fullScreenColor = document.getElementById('fullScreenColor')
     fullScreenColor.style.backgroundColor = null
     fullScreenColor.style.height = '0px'
+    document.getElementById('fullscreen').style.overflow = null
     window.history.replaceState(null, null, window.location.pathname)
 
 onElementClick = (event) ->
@@ -150,3 +152,5 @@ onPageLoad()
 # Backwards compatible, future proof :)
 
 # pixel perfect squares (and elements)
+
+# Browser-Sync Bug
