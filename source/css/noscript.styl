@@ -1,0 +1,139 @@
+body
+    &.noscript
+        width 100%
+        margin 0
+        padding 0
+        background-color black
+
+.noscript
+    --animation 0.6s
+    .colorSwitch
+        input
+            opacity 0
+            width 0
+            height 0
+            visibility hidden
+            position fixed
+            top -100px
+    .color
+        position fixed
+        z-index 1
+        cursor pointer
+        transition var(--animation)
+        &:before
+            position fixed
+            content ""
+            height 25%
+            width 20%
+            transition var(--animation)
+    input
+        &:checked
+            & + .color
+                z-index 300
+                &:before
+                    height 100vh
+                    width 100vw
+                    position fixed
+                    top 0
+                    left 0
+                    z-index 420
+    .color1
+        &:before
+            background-color deepskyblue
+            top 0px
+            left 0%
+    .color2
+        &:before
+            background-color greenyellow
+            top 0px
+            left 20%
+    .color3
+        &:before
+            background-color goldenrod
+            top 0px
+            left 40%
+    .color4
+        &:before
+            background-color yellow
+            top 0px
+            left 60%
+    .color5
+        &:before
+            background-color darkslategray
+            top 0px
+            left 80%
+    .color6
+        &:before
+            background-color fuchsia
+            top 25%
+            left 0%
+    .color7
+        &:before
+            background-color aqua
+            top 25%
+            left 20%
+    .color8
+        &:before
+            background-color gray
+            top 25%
+            left 40%
+    .color9
+        &:before
+            background-color lime
+            top 25%
+            left 60%
+    .color10
+        &:before
+            background-color maroon
+            top 25%
+            left 80%
+    .color11
+        &:before
+            background-color cornflowerblue
+            top 50%
+            left 0%
+    .color12
+        &:before
+            background-color lawngreen
+            top 50%
+            left 20%
+    .color13
+        &:before
+            background-color salmon
+            top 50%
+            left 40%
+    .color14
+        &:before
+            background-color mediumslateblue
+            top 50%
+            left 60%
+    .color15
+        &:before
+            background-color teal
+            top 50%
+            left 80%
+    .color16
+        &:before
+            background-color white
+            top 75%
+            left 0%
+    .color17
+        &:before
+            background-color purple
+            top 75%
+            left 20%
+    .color18
+        &:before
+            background-color orchid
+            top 75%
+            left 40%
+    .color19
+        &:before
+            background-color deeppink
+            top 75%
+            left 60%
+    .color20
+        &:before
+            background-color black
+            top 75%
+            left 80%

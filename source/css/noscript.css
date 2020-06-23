@@ -1,0 +1,141 @@
+body.noscript {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+.noscript {
+  --animation: 0.6s;
+}
+.noscript .colorSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -100px;
+}
+.noscript .color {
+  position: fixed;
+  z-index: 1;
+  cursor: pointer;
+  transition: var(--animation);
+}
+.noscript .color:before {
+  position: fixed;
+  content: "";
+  height: 25%;
+  width: 20%;
+  transition: var(--animation);
+}
+.noscript input:checked + .color {
+  z-index: 300;
+}
+.noscript input:checked + .color:before {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 420;
+}
+.noscript .color1:before {
+  background-color: #00bfff;
+  top: 0px;
+  left: 0%;
+}
+.noscript .color2:before {
+  background-color: #adff2f;
+  top: 0px;
+  left: 20%;
+}
+.noscript .color3:before {
+  background-color: #daa520;
+  top: 0px;
+  left: 40%;
+}
+.noscript .color4:before {
+  background-color: #ff0;
+  top: 0px;
+  left: 60%;
+}
+.noscript .color5:before {
+  background-color: #2f4f4f;
+  top: 0px;
+  left: 80%;
+}
+.noscript .color6:before {
+  background-color: #f0f;
+  top: 25%;
+  left: 0%;
+}
+.noscript .color7:before {
+  background-color: #0ff;
+  top: 25%;
+  left: 20%;
+}
+.noscript .color8:before {
+  background-color: #808080;
+  top: 25%;
+  left: 40%;
+}
+.noscript .color9:before {
+  background-color: #0f0;
+  top: 25%;
+  left: 60%;
+}
+.noscript .color10:before {
+  background-color: #800000;
+  top: 25%;
+  left: 80%;
+}
+.noscript .color11:before {
+  background-color: #6495ed;
+  top: 50%;
+  left: 0%;
+}
+.noscript .color12:before {
+  background-color: #7cfc00;
+  top: 50%;
+  left: 20%;
+}
+.noscript .color13:before {
+  background-color: #fa8072;
+  top: 50%;
+  left: 40%;
+}
+.noscript .color14:before {
+  background-color: #7b68ee;
+  top: 50%;
+  left: 60%;
+}
+.noscript .color15:before {
+  background-color: #008080;
+  top: 50%;
+  left: 80%;
+}
+.noscript .color16:before {
+  background-color: #fff;
+  top: 75%;
+  left: 0%;
+}
+.noscript .color17:before {
+  background-color: #800080;
+  top: 75%;
+  left: 20%;
+}
+.noscript .color18:before {
+  background-color: #da70d6;
+  top: 75%;
+  left: 40%;
+}
+.noscript .color19:before {
+  background-color: #ff1493;
+  top: 75%;
+  left: 60%;
+}
+.noscript .color20:before {
+  background-color: #000;
+  top: 75%;
+  left: 80%;
+}
