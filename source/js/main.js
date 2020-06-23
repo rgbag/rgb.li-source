@@ -46,12 +46,11 @@
     fullScreenState = 'unknown';
     if (fullScreenColor.style.height === '0px') {
       debugLog('isFullScreen() -> fullScreenColor.style.height == "0px"');
-      fullScreenState = false;
+      return fullScreenState = false;
     } else {
       debugLog('isFullScreen() -> else fullScreenColor.style.height = ' + fullScreenColor.style.height);
-      fullScreenState = true;
+      return fullScreenState = true;
     }
-    return fullScreenState;
   };
 
   stateSwitch = function() {
@@ -189,5 +188,7 @@
 // pixel perfect squares (and elements)
 
 // Browser-Sync Bug
+
+// cert keys gitignore
 
 }).call(this);

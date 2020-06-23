@@ -39,7 +39,6 @@ isFullScreen = () ->
     else
         debugLog('isFullScreen() -> else fullScreenColor.style.height = ' + fullScreenColor.style.height)
         fullScreenState = true
-    return fullScreenState
 
 stateSwitch = () ->
     debugLog('stateSwitch()')
@@ -154,3 +153,5 @@ onPageLoad()
 # pixel perfect squares (and elements)
 
 # Browser-Sync Bug
+
+# cert keys gitignore

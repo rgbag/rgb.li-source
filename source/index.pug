@@ -9,17 +9,199 @@ html(lang='en')
         link(rel='apple-touch-icon' sizes='180x180' href='img/icon.png')
         meta(name='description', content='RGB Color Plate')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        //- style
+        //-     include css/index.css
         style
-            include css/index.css
+            include css/browser-sync.css 
+        //- REMOVE ^
+
+        style.
+            .noscript {
+            --animation: 0.6s;
+            }
+
+            body.noscript {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background-color: black;
+            }
+
+            .noscript .colorSwitch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+            visibility: hidden;
+            position: fixed;
+            top: -100px;
+            }
+
+            .noscript .color {
+            position: fixed;
+            z-index: 1;
+            cursor: pointer;
+            transition: var(--animation);
+            }
+
+
+            .noscript .color:before {
+            position: fixed;
+            content: "";
+            height: 25%;
+            width: 20%;
+            transition: var(--animation);
+            }
+
+            .noscript input:checked + .color {
+            z-index: 300;
+            }
+
+            .noscript input:checked + .color:before {
+                height: 100vh;
+                width: 100vw;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 420;
+            }
+
+            .noscript .color1:before {
+                background-color: blue;
+                top: 0px;
+                left: 0%;
+            }
+
+            .noscript .color2:before {
+                background-color: green;
+                top: 0px;
+                left: 20%;
+            }
+
+            .noscript .color3:before {
+                background-color: grey;
+                top: 0px;
+                left: 40%;
+            }
+
+            .noscript .color4:before {
+                background-color: yellow;
+                top: 0px;
+                left: 60%;
+            }
+
+            .noscript .color5:before {
+                background-color: purple;
+                top: 0px;
+                left: 80%;
+            }
+
+            .noscript .color6:before {
+                background-color: aqua;
+                top: 25%;
+                left: 0%;
+            }
+
+            .noscript .color7:before {
+                background-color: fuchsia;
+                top: 25%;
+                left: 20%;
+            }
+
+            .noscript .color8:before {
+                background-color: gray;
+                top: 25%;
+                left: 40%;
+            }
+
+            .noscript .color9:before {
+                background-color: lime;
+                top: 25%;
+                left: 60%;
+            }
+
+            .noscript .color10:before {
+                background-color: maroon;
+                top: 25%;
+                left: 80%;
+            }
+
+            .noscript .color11:before {
+                background-color: navy;
+                top: 50%;
+                left: 0%;
+            }
+
+            .noscript .color12:before {
+                background-color: olive;
+                top: 50%;
+                left: 20%;
+            }
+
+            .noscript .color13:before {
+                background-color: red;
+                top: 50%;
+                left: 40%;
+            }
+
+            .noscript .color14:before {
+                background-color: silver;
+                top: 50%;
+                left: 60%;
+            }
+
+            .noscript .color15:before {
+                background-color: teal;
+                top: 50%;
+                left: 80%;
+            }
+
+            .noscript .color16:before {
+                background-color: white;
+                top: 75%;
+                left: 0%;
+            }
+
+            .noscript .color17:before {
+                background-color: black;
+                top: 75%;
+                left: 20%;
+            }
+
+            .noscript .color18:before {
+                background-color: grey;
+                top: 75%;
+                left: 40%;
+            }
+
+            .noscript .color19:before {
+                background-color: yellow;
+                top: 75%;
+                left: 60%;
+            }
+
+            .noscript .color20:before {
+                background-color: purple;
+                top: 75%;
+                left: 80%;
+            }
+
 
     body#fullscreen.fullscreen.noscript
-        script.
-            document.querySelector('body').classList.remove('noscript');
+        //- script.
+        //-     document.querySelector('body').classList.remove('noscript');
 
-        #fullScreenColor
+        //- #fullScreenColor
         
-        #colors.grid
+        //- #colors.grid
+        
+        //- noscript
+
+        - for (var i = 0; i < 21; i++) {
+            label.colorSwitch
+                input(type='checkbox')
+                span.color(class='color'+i)
+        - }
 
         script 
-            include js/main.js
+            //- include js/main.js
             //- include js/actionUrl.js
