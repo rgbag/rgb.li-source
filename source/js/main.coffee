@@ -24,6 +24,7 @@ onPageLoad = () ->
 
 setup = () ->
     debugLog("setup()")
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', '<div id="fullScreenColor"></div>')
     createColorGrid()
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
@@ -119,6 +120,7 @@ onPageLoad()
 
 # NOW
 # back forward bug: mostly fixed...
+    # browser-sync second device back forward sync
 # top color grid
 # auto color grid
 
