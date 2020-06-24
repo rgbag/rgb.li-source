@@ -142,7 +142,7 @@ html,
 
   //###########################################################
   //region config
-  var adjustDisplayState, colorCodeFromURL, createColorGrid, createColorSquare, debugLog, disablefullScreenColor, enablefullScreenColor, generateRandomColorCode, home, isFullScreen, isValidColorCode, nrColorSquares, onElementClick, onPageLoad, setup, urlSeperator, useColorCode, useColorCodeFromQueryURL, windowHistoryPushState;
+  var adjustDisplayState, colorCodeFromURL, createColorGrid, createColorPNG, createColorSquare, debugLog, disablefullScreenColor, enablefullScreenColor, generateRandomColorCode, home, isFullScreen, isValidColorCode, newTab, nrColorSquares, onElementClick, onPageLoad, png, setup, urlSeperator, useColorCode, useColorCodeFromQueryURL, windowHistoryPushState;
 
   urlSeperator = '#';
 
@@ -328,7 +328,28 @@ html,
   //endregion
 
   //###########################################################
-  onPageLoad();
+  // onPageLoad()
+
+  //###########################################################
+  // create the Image
+  createColorPNG = function(width, height, colorCode) {
+    var canvas, context, image;
+    canvas = document.createElement("CANVAS");
+    canvas.setAttribute("width", width);
+    canvas.setAttribute("height", height);
+    context = canvas.getContext("2d");
+    context.fillStyle = colorCode;
+    context.fillRect(0, 0, width, height);
+    image = canvas.toDataURL("image/png");
+    image = canvas.toDataURL();
+    return image;
+  };
+
+  png = createColorPNG(100, 100, "#61811a");
+
+  newTab = window.open();
+
+  newTab.document.body.innerHTML = "<img src='" + png + "'>";
 
 }).call(this);
 

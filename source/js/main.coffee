@@ -176,4 +176,22 @@ colorCodeFromURL = (url) ->  '#' + url.split(urlSeperator)[1]
 #endregion
 
 ############################################################
-onPageLoad()
+# onPageLoad()
+
+
+############################################################
+# create the Image
+createColorPNG = (width, height, colorCode ) ->
+    canvas = document.createElement("CANVAS")
+    canvas.setAttribute("width", width)
+    canvas.setAttribute("height", height)
+    context = canvas.getContext("2d")
+    context.fillStyle = colorCode
+    context.fillRect(0, 0, width, height)
+    image = canvas.toDataURL("image/png")
+    image = canvas.toDataURL()
+    return image
+
+png = createColorPNG(100, 100, "#61811a")
+newTab = window.open()
+newTab.document.body.innerHTML = "<img src='"+png+"'>"
