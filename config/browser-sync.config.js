@@ -25,7 +25,12 @@ module.exports = {
                 res.end("Redirecting!");
             });
         }
-    }
+    },
+    ghostMode: {
+        clicks: false,
+        forms: false,
+        scroll: true
+    }    
 };
 
 

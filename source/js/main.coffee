@@ -1,4 +1,6 @@
-# Register Service Worker
+##
+#region service worker
+
 window.onload = ->
     'use strict'
     if 'serviceWorker' of navigator
@@ -10,9 +12,14 @@ window.onload = ->
             return
     return
 
-urlSeperator = '#'
+#endregion
 
+##
+#region setup
+
+urlSeperator = '#'
 debugLog = true
+
 debugLog = (log) ->
     if debugLog
         console.log(log)
@@ -29,6 +36,11 @@ setup = () ->
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
         stateSwitch()
+
+#endregion
+
+##
+#region state management
 
 isFullScreen = () ->
     debugLog('isFullScreen()')
@@ -59,21 +71,6 @@ windowHistoryPushState = (state3) ->
     window.history.pushState(state3, state3, state3)
     debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state)
 
-enableFullScreenColor = (color) ->
-    debugLog("enableFullScreenColor(" + color + ")")
-    fullScreenColor = document.getElementById('fullScreenColor')
-    fullScreenColor.style.backgroundColor = color
-    fullScreenColor.style.height = '100vh'
-    document.getElementById('fullscreen').style.overflow = 'hidden'
-    windowHistoryPushState(color)
-
-disableFullScreenColor = (pushState) ->
-    fullScreenColor = document.getElementById('fullScreenColor')
-    fullScreenColor.style.backgroundColor = null
-    fullScreenColor.style.height = '0px'
-    document.getElementById('fullscreen').style.overflow = null
-    window.history.replaceState(null, null, window.location.pathname)
-
 onElementClick = (event) ->
     debugLog('onElementClick(' + event + ')')
     tokens = event.target.getAttribute("href").split("#")
@@ -89,11 +86,15 @@ getUrlQuery = (urlSeperator) ->
         query = '#' + url.split(urlSeperator)[1]
         validateColorCode(query)
 
+#endregion
+
+##
+#region color
 validateColorCode = (colorCode) ->
     debugLog('validateColorCode(' + colorCode + ')')
     if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
         debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
-        enableFullScreenColor(colorCode)
+        enableFullScreenColor(colorCode) # return true # 
 
 createColorGrid = () ->
     debugLog('createColorGrid()')
@@ -116,44 +117,61 @@ createColorGrid = () ->
             colors.appendChild divArray[i]
             i++;
 
+createColorPNG = (width, height, colorCode ) ->
+    canvas = document.createElement("CANVAS")
+    canvas.setAttribute("width", width)
+    canvas.setAttribute("height", height)
+    context = canvas.getContext("2d")
+    context.fillStyle = colorCode
+    context.fillRect(0, 0, width, height)
+    image = canvas.toDataURL("image/png")
+    image = canvas.toDataURL()
+    return image
+
+enableFullScreenColor = (color) ->
+    debugLog("enableFullScreenColor(" + color + ")")
+    fullScreenColor = document.getElementById('fullScreenColor')
+    fullScreenColor.style.backgroundColor = color
+    fullScreenColor.style.height = '100vh'
+    fullScreenColor.style.display = 'none'
+    png = createColorPNG(360, 360, color)
+    pngHTML = "<img id='colorImage' src='"+png+"' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>"
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML)
+    document.getElementById('fullscreen').style.overflow = 'hidden'
+    windowHistoryPushState(color)
+
+disableFullScreenColor = (pushState) ->
+    fullScreenColor = document.getElementById('fullScreenColor')
+    fullScreenColor.style.backgroundColor = null
+    fullScreenColor.style.height = '0px'
+    document.getElementById('colorImage').remove()
+    document.getElementById('fullscreen').style.overflow = null
+    window.history.replaceState(null, null, window.location.pathname)
+
+#endregion
+
 onPageLoad()
 
+##
+#region notes
+
 # NOW
+# state management / fullScreenColor
+# animation
+# top colors noscript to coffee
+# lazy loading
+# metatags
+# working pwa
+
+# 5x Touch Menu
 # back forward bug: mostly fixed...
     # browser-sync second device back forward sync
-# top color grid
-# auto color grid
-
-# FUNCTIONS
-
-# Config
-
-# Generate Color Grid
-    # Animate
-
-# Set URL onClick
-
-# Get Color from URL
-
-# Open Color Screen with Menu
-
-# Open Fullscreen Color
-
-# Menu
-    # Change Color
-
-# Save Color to Favorites
-
-# State Management
-    # window.history
-    # state variable
-
-# Die ersten Farben manuell festlegen!
 
 # Backwards compatible, future proof :)
 
-# pixel perfect squares (and elements)
+# Browser-Sync Click Bug
+# https://github.com/BrowserSync/browser-sync/issues/49
 
-# Browser-Sync Bug
+# cert & key gitignore + documentation
 
-# cert keys gitignore
+#endregion
