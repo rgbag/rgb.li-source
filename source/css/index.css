@@ -33,7 +33,6 @@ html,
 #fullScreenColor {
   position: fixed;
   width: 100vw;
-  height: 0px;
-  margin: 0px;
-  padding: 0px;
+  height: 100vh;
+  image-rendering: pixelated;
 }

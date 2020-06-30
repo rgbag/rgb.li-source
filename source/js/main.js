@@ -2,7 +2,7 @@
 (function() {
   //#
   //region service worker
-  var createColorGrid, createColorPNG, debugLog, disableFullScreenColor, enableFullScreenColor, getUrlQuery, home, isFullScreen, onElementClick, onPageLoad, setup, stateSwitch, urlSeperator, validateColorCode, windowHistoryPushState;
+  var createColorGrid, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, getColorCodeFromUrl, home, isFullScreen, onElementClick, onPageLoad, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateColorCode;
 
   window.onload = function() {
     'use strict';
@@ -19,7 +19,7 @@
 
   //#
   //region setup
-  urlSeperator = '#';
+  userHistory = [];
 
   debugLog = true;
 
@@ -32,12 +32,11 @@
   onPageLoad = function() {
     debugLog("onPageLoad()");
     setup();
-    return getUrlQuery(urlSeperator);
+    return getColorCodeFromUrl();
   };
 
   setup = function() {
     debugLog("setup()");
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', '<div id="fullScreenColor"></div>');
     createColorGrid();
     return window.addEventListener('popstate', function(e) {
       debugLog('setup() -> popstate event');
@@ -50,27 +49,24 @@
   //#
   //region state management
   isFullScreen = function() {
-    var fullScreenColor, fullScreenState;
+    var fullScreenState;
     debugLog('isFullScreen()');
-    fullScreenColor = document.getElementById('fullScreenColor');
-    fullScreenState = 'unknown';
-    if (fullScreenColor.style.height === '0px') {
-      debugLog('isFullScreen() -> fullScreenColor.style.height == "0px"');
+    if (document.getElementById('fullScreenColor') === null) {
       return fullScreenState = false;
     } else {
-      debugLog('isFullScreen() -> else fullScreenColor.style.height = ' + fullScreenColor.style.height);
       return fullScreenState = true;
     }
   };
 
   stateSwitch = function() {
     debugLog('stateSwitch()');
+    // browser history state change by user
     if (isFullScreen()) {
       debugLog('stateSwitch() -> if isFullScreen()');
       return home();
     } else {
       debugLog('stateSwitch() -> else');
-      return getUrlQuery('#');
+      return getColorCodeFromUrl('#');
     }
   };
 
@@ -79,12 +75,17 @@
     return disableFullScreenColor('/.');
   };
 
-  windowHistoryPushState = function(state3) {
-    debugLog('windowHistoryPushState("' + state3 + '")');
-    window.history.pushState(state3, state3, state3);
-    return debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state);
+  pushWindowHistoryState = function(state3) {
+    debugLog('pushWindowHistoryState("' + state3 + '")');
+    if (userHistory.length === 0) {
+      userHistory.push(state3);
+      return window.history.pushState(state3, state3, state3);
+    } else {
+      return debugLog("else " + userHistory);
+    }
   };
 
+  // debugLog('pushWindowHistoryState("' + state3 + '") -> window.history.state == ' + window.history.state)
   onElementClick = function(event) {
     var color, tokens;
     debugLog('onElementClick(' + event + ')');
@@ -93,14 +94,13 @@
     return enableFullScreenColor(color);
   };
 
-  getUrlQuery = function(urlSeperator) {
+  getColorCodeFromUrl = function() {
     var query, url;
-    debugLog('getUrlQuery("' + urlSeperator + '")');
-    urlSeperator = urlSeperator || "?";
+    debugLog("getColorCodeFromUrl('#')");
     url = window.location.href;
-    if (url.includes(urlSeperator)) {
-      debugLog('getUrlQuery -> if url.includes(' + urlSeperator + ')');
-      query = '#' + url.split(urlSeperator)[1];
+    if (url.includes('#')) {
+      debugLog("getColorCodeFromUrl -> if url.includes('#')");
+      query = '#' + url.split('#')[1];
       return validateColorCode(query);
     }
   };
@@ -109,11 +109,11 @@
 
   //#
   //region color
-  validateColorCode = function(colorCode) {
-    debugLog('validateColorCode(' + colorCode + ')');
-    if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
-      return enableFullScreenColor(colorCode); // return true # 
+  randomColorCode = function(colorType) {
+    debugLog('randomColorCode(colorType)');
+    colorType = colorType || 'hex';
+    if (colorType === 'hex') {
+      return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
     }
   };
 
@@ -134,10 +134,10 @@
       while (i < colorSquares) {
         divArray[i] = document.createElement('div');
         divArray[i].id = 'color' + i;
-        divArray[i].style.backgroundColor = randomColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+        divArray[i].style.backgroundColor = randomColor = randomColorCode('hex');
         divArray[i].className = 'color';
         divArray[i].setAttribute('href', "" + randomColor);
-        divArray[i].addEventListener("click", onElementClick); // fixed by Lenny
+        divArray[i].addEventListener("click", onElementClick);
         colors.appendChild(divArray[i]);
         results.push(i++);
       }
@@ -145,7 +145,15 @@
     })();
   };
 
-  createColorPNG = function(width, height, colorCode) {
+  validateColorCode = function(colorCode) {
+    debugLog('validateColorCode(' + colorCode + ')');
+    if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
+      debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
+      return enableFullScreenColor(colorCode); // return true # 
+    }
+  };
+
+  createColorPng = function(width, height, colorCode) {
     var canvas, context, image;
     canvas = document.createElement("CANVAS");
     canvas.setAttribute("width", width);
@@ -159,27 +167,27 @@
   };
 
   enableFullScreenColor = function(color) {
-    var fullScreenColor, png, pngHTML;
+    var fullScreenColorDiv;
     debugLog("enableFullScreenColor(" + color + ")");
-    fullScreenColor = document.getElementById('fullScreenColor');
-    fullScreenColor.style.backgroundColor = color;
-    fullScreenColor.style.height = '100vh';
-    fullScreenColor.style.display = 'none';
-    png = createColorPNG(360, 360, color);
-    pngHTML = "<img id='colorImage' src='" + png + "' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>";
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML);
+    fullScreenColorDiv = '<div id="fullScreenColor" style="background-color: ' + color + ';">';
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv);
     document.getElementById('fullscreen').style.overflow = 'hidden';
-    return windowHistoryPushState(color);
+    return pushWindowHistoryState(color);
   };
 
   disableFullScreenColor = function(pushState) {
-    var fullScreenColor;
-    fullScreenColor = document.getElementById('fullScreenColor');
-    fullScreenColor.style.backgroundColor = null;
-    fullScreenColor.style.height = '0px';
-    document.getElementById('colorImage').remove();
+    document.getElementById('fullScreenColor').remove();
     document.getElementById('fullscreen').style.overflow = null;
     return window.history.replaceState(null, null, window.location.pathname);
+  };
+
+  enableFullScreenColorPng = function(color) {
+    var png, pngHTML;
+    debugLog("enableFullScreenColor(" + color + ", " + id + ")");
+    png = createColorPng(360, 360, color);
+    pngHTML = "<img id='colorImage' src='" + png + "' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>";
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML);
+    return pushWindowHistoryState(color);
   };
 
   //endregion
@@ -189,14 +197,27 @@
 //region notes
 
 // NOW
-// state management / fullScreenColor
+// fullScreenDiv Rolback
 // animation
+// png sharing bug 
+// structure / png in div
 // top colors noscript to coffee
 // lazy loading
 // metatags
-// working pwa
+// working home pwa
+// ios swipe indikator ausblenden
 
 // 5x Touch Menu
+// Bei Fullscreen wird immer zuerst unten eine Menüleiste angezeigt, notch,
+// bei erneutem Klick auf die Farbe wird die Menüleiste ausgeblendet
+// und kann nur über Browser Back zurückgeholt werden, oder 5x Touch...
+
+// color pwa
+// v1.5.0?
+
+// cursor
+// https://www.cssscript.com/interacitve-cursor-dot/
+
 // back forward bug: mostly fixed...
 // browser-sync second device back forward sync
 
@@ -204,6 +225,7 @@
 
 // Browser-Sync Click Bug
 // https://github.com/BrowserSync/browser-sync/issues/49
+// https://www.cssscript.com/circle-cursor-pointer/
 
 // cert & key gitignore + documentation
 

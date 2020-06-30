@@ -17,9 +17,9 @@ window.onload = ->
 ##
 #region setup
 
-urlSeperator = '#'
-debugLog = true
+userHistory = []
 
+debugLog = true
 debugLog = (log) ->
     if debugLog
         console.log(log)
@@ -27,11 +27,10 @@ debugLog = (log) ->
 onPageLoad = () ->
     debugLog("onPageLoad()")
     setup()
-    getUrlQuery(urlSeperator)
+    getColorCodeFromUrl()
 
 setup = () ->
     debugLog("setup()")
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', '<div id="fullScreenColor"></div>')
     createColorGrid()
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
@@ -44,32 +43,33 @@ setup = () ->
 
 isFullScreen = () ->
     debugLog('isFullScreen()')
-    fullScreenColor = document.getElementById('fullScreenColor')
-    fullScreenState = 'unknown'
-    if fullScreenColor.style.height == '0px'
-        debugLog('isFullScreen() -> fullScreenColor.style.height == "0px"')
+    if document.getElementById('fullScreenColor') == null
         fullScreenState = false
-    else
-        debugLog('isFullScreen() -> else fullScreenColor.style.height = ' + fullScreenColor.style.height)
+    else 
         fullScreenState = true
 
 stateSwitch = () ->
     debugLog('stateSwitch()')
+    # browser history state change by user
     if isFullScreen()
         debugLog('stateSwitch() -> if isFullScreen()')
         home()
     else
         debugLog('stateSwitch() -> else')
-        getUrlQuery('#')
+        getColorCodeFromUrl('#')
 
 home = () ->
     debugLog('home()')
     disableFullScreenColor('/.')
 
-windowHistoryPushState = (state3) ->
-    debugLog('windowHistoryPushState("' + state3 + '")')
-    window.history.pushState(state3, state3, state3)
-    debugLog('windowHistoryPushState("' + state3 + '") -> window.history.state == ' + window.history.state)
+pushWindowHistoryState = (state3) ->
+    debugLog('pushWindowHistoryState("' + state3 + '")')
+    if userHistory.length == 0
+        userHistory.push(state3)
+        window.history.pushState(state3, state3, state3)
+    else
+        debugLog("else " + userHistory)
+    # debugLog('pushWindowHistoryState("' + state3 + '") -> window.history.state == ' + window.history.state)
 
 onElementClick = (event) ->
     debugLog('onElementClick(' + event + ')')
@@ -77,25 +77,24 @@ onElementClick = (event) ->
     color = "#" + tokens[1]
     enableFullScreenColor(color)
 
-getUrlQuery = (urlSeperator) ->
-    debugLog('getUrlQuery("' + urlSeperator + '")')
-    urlSeperator = urlSeperator || "?"
+getColorCodeFromUrl = () ->
+    debugLog("getColorCodeFromUrl('#')")
     url = window.location.href
-    if url.includes(urlSeperator)
-        debugLog('getUrlQuery -> if url.includes(' + urlSeperator + ')')
-        query = '#' + url.split(urlSeperator)[1]
+    if url.includes('#')
+        debugLog("getColorCodeFromUrl -> if url.includes('#')")
+        query = '#' + url.split('#')[1]
         validateColorCode(query)
 
 #endregion
 
 ##
 #region color
-validateColorCode = (colorCode) ->
-    debugLog('validateColorCode(' + colorCode + ')')
-    if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
-        debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
-        enableFullScreenColor(colorCode) # return true # 
-
+randomColorCode = (colorType) ->
+    debugLog('randomColorCode(colorType)')
+    colorType = colorType || 'hex'
+    if colorType == 'hex'
+        '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+        
 createColorGrid = () ->
     debugLog('createColorGrid()')
     i = 1
@@ -110,14 +109,20 @@ createColorGrid = () ->
         while i < colorSquares
             divArray[i] = document.createElement('div')
             divArray[i].id = 'color' + i
-            divArray[i].style.backgroundColor = randomColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            divArray[i].style.backgroundColor = randomColor = randomColorCode('hex')
             divArray[i].className = 'color'
             divArray[i].setAttribute 'href', "" + randomColor
-            divArray[i].addEventListener("click", onElementClick) # fixed by Lenny
+            divArray[i].addEventListener("click", onElementClick)
             colors.appendChild divArray[i]
             i++;
 
-createColorPNG = (width, height, colorCode ) ->
+validateColorCode = (colorCode) ->
+    debugLog('validateColorCode(' + colorCode + ')')
+    if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
+        debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+        enableFullScreenColor(colorCode) # return true # 
+
+createColorPng = (width, height, colorCode) ->
     canvas = document.createElement("CANVAS")
     canvas.setAttribute("width", width)
     canvas.setAttribute("height", height)
@@ -130,24 +135,22 @@ createColorPNG = (width, height, colorCode ) ->
 
 enableFullScreenColor = (color) ->
     debugLog("enableFullScreenColor(" + color + ")")
-    fullScreenColor = document.getElementById('fullScreenColor')
-    fullScreenColor.style.backgroundColor = color
-    fullScreenColor.style.height = '100vh'
-    fullScreenColor.style.display = 'none'
-    png = createColorPNG(360, 360, color)
-    pngHTML = "<img id='colorImage' src='"+png+"' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>"
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML)
+    fullScreenColorDiv = '<div id="fullScreenColor" style="background-color: ' + color + ';">'
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv)
     document.getElementById('fullscreen').style.overflow = 'hidden'
-    windowHistoryPushState(color)
+    pushWindowHistoryState(color)
 
 disableFullScreenColor = (pushState) ->
-    fullScreenColor = document.getElementById('fullScreenColor')
-    fullScreenColor.style.backgroundColor = null
-    fullScreenColor.style.height = '0px'
-    document.getElementById('colorImage').remove()
+    document.getElementById('fullScreenColor').remove()
     document.getElementById('fullscreen').style.overflow = null
     window.history.replaceState(null, null, window.location.pathname)
 
+enableFullScreenColorPng = (color) ->
+    debugLog("enableFullScreenColor(" + color + ", " + id + ")")
+    png = createColorPng(360, 360, color)
+    pngHTML = "<img id='colorImage' src='"+png+"' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>"
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML)
+    pushWindowHistoryState(color)
 #endregion
 
 onPageLoad()
@@ -156,21 +159,35 @@ onPageLoad()
 #region notes
 
 # NOW
-# state management / fullScreenColor
+# fullScreenDiv Rolback
 # animation
+# png sharing bug 
+# structure / png in div
 # top colors noscript to coffee
 # lazy loading
 # metatags
-# working pwa
+# working home pwa
+# ios swipe indikator ausblenden
 
 # 5x Touch Menu
+# Bei Fullscreen wird immer zuerst unten eine Menüleiste angezeigt, notch,
+# bei erneutem Klick auf die Farbe wird die Menüleiste ausgeblendet
+# und kann nur über Browser Back zurückgeholt werden, oder 5x Touch...
+
+# color pwa
+# v1.5.0?
+
+# cursor
+# https://www.cssscript.com/interacitve-cursor-dot/
+
 # back forward bug: mostly fixed...
-    # browser-sync second device back forward sync
+# browser-sync second device back forward sync
 
 # Backwards compatible, future proof :)
 
 # Browser-Sync Click Bug
 # https://github.com/BrowserSync/browser-sync/issues/49
+# https://www.cssscript.com/circle-cursor-pointer/
 
 # cert & key gitignore + documentation
 

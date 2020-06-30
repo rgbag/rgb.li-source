@@ -1,19 +1,19 @@
 {
   "name": "rgb.li",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "All the Colors!",
   "author": "Sebastian W. Friedrich",
   "license": "EUPL-1.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sebfried/RGB-Lights.git"
+    "url": "git+https://github.com/sebfried/RGB-Light.git"
   },
   "scripts": {
     "test": "npm start",
-    "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-start",
+    "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
     "build": "npm-run-all stylus coffee purgecss pug-cli www-dist browser-sync-build",
-    "browser-sync-start": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync.config.js",
-    "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync.config.js --no-notify",
+    "browser-sync-test": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync-test.config.js",
+    "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync-build.config.js --no-notify",
     "www-dist": "npm-run-all rm-www minifier ncp-img ncp-font ncp-fav ncp-manifest ncp-sw",
     "rm-www": "rimraf www/*",
     "purgecss": "purgecss --out source/css --config config/purgecss.config.js",
