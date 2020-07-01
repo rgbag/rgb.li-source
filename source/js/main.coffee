@@ -18,6 +18,7 @@ window.onload = ->
 #region setup
 
 userHistory = []
+click = "" # to fix
 
 debugLog = true
 debugLog = (log) ->
@@ -64,7 +65,8 @@ home = () ->
 
 pushWindowHistoryState = (state3) ->
     debugLog('pushWindowHistoryState("' + state3 + '")')
-    if userHistory.length == 0
+    if userHistory.length == 0 || click == true
+        click = false
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
     else
@@ -75,6 +77,7 @@ onElementClick = (event) ->
     debugLog('onElementClick(' + event + ')')
     tokens = event.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
+    click = true
     enableFullScreenColor(color)
 
 getColorCodeFromUrl = () ->
@@ -122,6 +125,18 @@ validateColorCode = (colorCode) ->
         debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
         enableFullScreenColor(colorCode) # return true # 
 
+enableFullScreenColor = (color) ->
+    debugLog("enableFullScreenColor(" + color + ")")
+    fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>'
+    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv)
+    document.getElementById('fullscreen').style.overflow = 'hidden'
+    pushWindowHistoryState(color)
+
+disableFullScreenColor = (pushState) ->
+    document.getElementById('fullScreenColor').remove()
+    document.getElementById('fullscreen').style.overflow = null
+    window.history.replaceState(null, null, window.location.pathname)
+
 createColorPng = (width, height, colorCode) ->
     canvas = document.createElement("CANVAS")
     canvas.setAttribute("width", width)
@@ -132,18 +147,6 @@ createColorPng = (width, height, colorCode) ->
     image = canvas.toDataURL("image/png")
     image = canvas.toDataURL()
     return image
-
-enableFullScreenColor = (color) ->
-    debugLog("enableFullScreenColor(" + color + ")")
-    fullScreenColorDiv = '<div id="fullScreenColor" style="background-color: ' + color + ';">'
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv)
-    document.getElementById('fullscreen').style.overflow = 'hidden'
-    pushWindowHistoryState(color)
-
-disableFullScreenColor = (pushState) ->
-    document.getElementById('fullScreenColor').remove()
-    document.getElementById('fullscreen').style.overflow = null
-    window.history.replaceState(null, null, window.location.pathname)
 
 enableFullScreenColorPng = (color) ->
     debugLog("enableFullScreenColor(" + color + ", " + id + ")")
@@ -159,15 +162,13 @@ onPageLoad()
 #region notes
 
 # NOW
-# fullScreenDiv Rolback
-# animation
-# png sharing bug 
-# structure / png in div
-# top colors noscript to coffee
 # lazy loading
 # metatags
 # working home pwa
-# ios swipe indikator ausblenden
+# png sharing bug 
+# top colors noscript to coffee
+
+# hide ios tab bar?
 
 # 5x Touch Menu
 # Bei Fullscreen wird immer zuerst unten eine Menüleiste angezeigt, notch,
@@ -180,13 +181,12 @@ onPageLoad()
 # cursor
 # https://www.cssscript.com/interacitve-cursor-dot/
 
-# back forward bug: mostly fixed...
-# browser-sync second device back forward sync
-
 # Backwards compatible, future proof :)
 
 # Browser-Sync Click Bug
 # https://github.com/BrowserSync/browser-sync/issues/49
+
+# Cursor
 # https://www.cssscript.com/circle-cursor-pointer/
 
 # cert & key gitignore + documentation
