@@ -2,10 +2,10 @@
 
 cacheName = 'rgb-li'
 filesToCache = [
-  '/manifest.json'
-  '/favicon.ico'
-  '/index.html'
-  '/img/icon.png'
+#   '/manifest.json'
+#   '/favicon.ico'
+#   '/index.html'
+#   '/img/icon.png'
 ]
 
 ### Start the service worker and cache all of the app's content ###
