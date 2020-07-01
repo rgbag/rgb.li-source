@@ -2,7 +2,7 @@
 (function() {
   //#
   //region service worker
-  var click, createColorGrid, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, getColorCodeFromUrl, home, isFullScreen, onElementClick, onPageLoad, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateColorCode;
+  var click, createColorGrid, createColorGridLegacy, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, getColorCodeFromUrl, home, isFullScreen, onElementClick, onElementScroll, onPageLoad, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateColorCode;
 
   window.onload = function() {
     'use strict';
@@ -23,10 +23,10 @@
 
   click = ""; // to fix
 
-  debugLog = true;
+  debugLog = false;
 
   debugLog = function(log) {
-    if (debugLog) {
+    if (debugLog === true) {
       return console.log(log);
     }
   };
@@ -40,6 +40,7 @@
   setup = function() {
     debugLog("setup()");
     createColorGrid();
+    window.addEventListener("scroll", onElementScroll);
     return window.addEventListener('popstate', function(e) {
       debugLog('setup() -> popstate event');
       return stateSwitch();
@@ -121,23 +122,24 @@
     }
   };
 
+  createColorGridLegacy = function() {};
+
   createColorGrid = function() {
     var autoColorGrid, i, topColorGrid;
     debugLog('createColorGrid()');
-    i = 1;
+    i = 0;
     (topColorGrid = function() {
       return debugLog('createColorGrid() -> selectedColors()');
     })();
     return (autoColorGrid = function() {
       var colorSquares, colors, divArray, randomColor, results;
       debugLog('createColorGrid() -> autoColors()');
-      colorSquares = 1000;
+      colorSquares = 200;
       divArray = new Array;
       colors = document.getElementById('colors');
       results = [];
       while (i < colorSquares) {
         divArray[i] = document.createElement('div');
-        divArray[i].id = 'color' + i;
         divArray[i].style.backgroundColor = randomColor = randomColorCode('hex');
         divArray[i].className = 'color';
         divArray[i].setAttribute('href', "" + randomColor);
@@ -147,6 +149,21 @@
       }
       return results;
     })();
+  };
+
+  onElementScroll = function() {
+    var body, colorsDiv, pixelToBodyBottom;
+    debugLog('onElementScroll');
+    // pixeltoBodyend = documentHeight - documentScrolledHeight
+    body = document.body;
+    colorsDiv = document.getElementById('colors');
+    pixelToBodyBottom = colorsDiv.offsetHeight - window.scrollY;
+    debugLog('documentHeight: ' + colorsDiv.offsetHeight);
+    debugLog('window.scrollY: ' + window.scrollY);
+    debugLog('window.innerHeight: ' + window.innerHeight);
+    if (pixelToBodyBottom < window.innerHeight * 2) {
+      return createColorGrid();
+    }
   };
 
   validateColorCode = function(colorCode) {
@@ -195,6 +212,8 @@
   };
 
   //endregion
+
+  //# kickstart
   onPageLoad();
 
   //#
@@ -202,6 +221,7 @@
 
 // NOW
 // lazy loading
+// seperate code to files
 // metatags
 // working home pwa
 // png sharing bug 

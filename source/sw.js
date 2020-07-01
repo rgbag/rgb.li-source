@@ -5,13 +5,9 @@
 
   cacheName = 'rgb-li';
 
-  filesToCache = [];
+  filesToCache = ['/manifest.json', '/favicon.ico', '/index.html', '/img/icon.png'];
 
   /* Start the service worker and cache all of the app's content */
-  // '/manifest.json'
-  // '/favicon.ico'
-  // '/index.html'
-  // '/img/icon.png'
   self.addEventListener('install', function(e) {
     e.waitUntil(caches.open(cacheName).then(function(cache) {
       return cache.addAll(filesToCache);

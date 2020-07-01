@@ -20,9 +20,9 @@ window.onload = ->
 userHistory = []
 click = "" # to fix
 
-debugLog = true
+debugLog = false
 debugLog = (log) ->
-    if debugLog
+    if debugLog == true
         console.log(log)
 
 onPageLoad = () ->
@@ -33,6 +33,7 @@ onPageLoad = () ->
 setup = () ->
     debugLog("setup()")
     createColorGrid()
+    window.addEventListener("scroll", onElementScroll)
     window.addEventListener 'popstate', (e) -> 
         debugLog('setup() -> popstate event')
         stateSwitch()
@@ -98,26 +99,39 @@ randomColorCode = (colorType) ->
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
         
+createColorGridLegacy = () ->
+
 createColorGrid = () ->
     debugLog('createColorGrid()')
-    i = 1
+    i = 0
     do topColorGrid = () ->
         debugLog('createColorGrid() -> selectedColors()')
 
     do autoColorGrid = () ->
         debugLog('createColorGrid() -> autoColors()')
-        colorSquares = 1000
+        colorSquares = 200
         divArray = new Array
         colors = document.getElementById('colors')
         while i < colorSquares
             divArray[i] = document.createElement('div')
-            divArray[i].id = 'color' + i
             divArray[i].style.backgroundColor = randomColor = randomColorCode('hex')
             divArray[i].className = 'color'
             divArray[i].setAttribute 'href', "" + randomColor
             divArray[i].addEventListener("click", onElementClick)
             colors.appendChild divArray[i]
             i++;
+
+onElementScroll = () ->
+    debugLog('onElementScroll')
+    # pixeltoBodyend = documentHeight - documentScrolledHeight
+    body = document.body
+    colorsDiv = document.getElementById('colors')
+    pixelToBodyBottom = colorsDiv.offsetHeight - window.scrollY
+    debugLog('documentHeight: ' + colorsDiv.offsetHeight)
+    debugLog('window.scrollY: ' + window.scrollY)
+    debugLog('window.innerHeight: ' + window.innerHeight)
+    if pixelToBodyBottom < window.innerHeight * 2
+        createColorGrid()
 
 validateColorCode = (colorCode) ->
     debugLog('validateColorCode(' + colorCode + ')')
@@ -156,15 +170,16 @@ enableFullScreenColorPng = (color) ->
     pushWindowHistoryState(color)
 #endregion
 
+## kickstart
 onPageLoad()
 
 ##
 #region notes
 
 # NOW
-# lazy loading
+# working home pwa with cache
+# seperate code to files
 # metatags
-# working home pwa
 # png sharing bug 
 # top colors noscript to coffee
 
