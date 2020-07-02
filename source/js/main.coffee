@@ -1,47 +1,30 @@
 ##
-#region service worker
-
-window.onload = ->
-    'use strict'
-    if 'serviceWorker' of navigator
-        navigator.serviceWorker.register('./sw.js').then((registration) ->
-            console.log 'Service Worker Registered', registration
-            return
-        ).catch (err) ->
-            console.log 'Service Worker Failed to Register', err
-            return
-    return
-
-#endregion
-
-##
 #region setup
 
-userHistory = []
-click = "" # to fix
+setup = () ->
+    debugLog('setup()')
+    createColorGrid()
+    window.addEventListener('scroll', onScroll)
+    window.addEventListener 'popstate', (e) -> 
+        debugLog("window.addEventListener 'popstate'")
+        stateSwitch()
 
-debugLog = false
 debugLog = (log) ->
-    if debugLog == true
+    if window.location.hostname == 'localhost'
         console.log(log)
 
-onPageLoad = () ->
-    debugLog("onPageLoad()")
+kickstart = () ->
+    debugLog('kickstart()')
     setup()
     getColorCodeFromUrl()
-
-setup = () ->
-    debugLog("setup()")
-    createColorGrid()
-    window.addEventListener("scroll", onElementScroll)
-    window.addEventListener 'popstate', (e) -> 
-        debugLog('setup() -> popstate event')
-        stateSwitch()
 
 #endregion
 
 ##
 #region state management
+
+userHistory = []
+click = 0
 
 isFullScreen = () ->
     debugLog('isFullScreen()')
@@ -66,20 +49,26 @@ home = () ->
 
 pushWindowHistoryState = (state3) ->
     debugLog('pushWindowHistoryState("' + state3 + '")')
-    if userHistory.length == 0 || click == true
-        click = false
+    if userHistory.length == 0 || click == 1
+        debugLog('if userHistory.length == 0 || click == 1')
+        click = 0
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
-    else
-        debugLog("else " + userHistory)
-    # debugLog('pushWindowHistoryState("' + state3 + '") -> window.history.state == ' + window.history.state)
 
-onElementClick = (event) ->
-    debugLog('onElementClick(' + event + ')')
-    tokens = event.target.getAttribute("href").split("#")
+onElementClick = (e) ->
+    debugLog('onElementClick(' + e + ')')
+    tokens = e.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
-    click = true
+    click = 1
     enableFullScreenColor(color)
+
+onScroll = () ->
+    debugLog('onScroll')
+    body = document.body
+    colorsDiv = document.getElementById('colors')
+    pixelToBottom = colorsDiv.offsetHeight - window.scrollY
+    if pixelToBottom < window.innerHeight * 2
+        createColorGrid()
 
 getColorCodeFromUrl = () ->
     debugLog("getColorCodeFromUrl('#')")
@@ -93,14 +82,13 @@ getColorCodeFromUrl = () ->
 
 ##
 #region color
+
 randomColorCode = (colorType) ->
-    debugLog('randomColorCode(colorType)')
+    debugLog('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex'
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
         
-createColorGridLegacy = () ->
-
 createColorGrid = () ->
     debugLog('createColorGrid()')
     i = 0
@@ -120,18 +108,6 @@ createColorGrid = () ->
             divArray[i].addEventListener("click", onElementClick)
             colors.appendChild divArray[i]
             i++;
-
-onElementScroll = () ->
-    debugLog('onElementScroll')
-    # pixeltoBodyend = documentHeight - documentScrolledHeight
-    body = document.body
-    colorsDiv = document.getElementById('colors')
-    pixelToBodyBottom = colorsDiv.offsetHeight - window.scrollY
-    debugLog('documentHeight: ' + colorsDiv.offsetHeight)
-    debugLog('window.scrollY: ' + window.scrollY)
-    debugLog('window.innerHeight: ' + window.innerHeight)
-    if pixelToBodyBottom < window.innerHeight * 2
-        createColorGrid()
 
 validateColorCode = (colorCode) ->
     debugLog('validateColorCode(' + colorCode + ')')
@@ -168,18 +144,44 @@ enableFullScreenColorPng = (color) ->
     pngHTML = "<img id='colorImage' src='"+png+"' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>"
     document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML)
     pushWindowHistoryState(color)
+
 #endregion
 
-## kickstart
-onPageLoad()
+##
+#region utilFunctions
+
+isValidColorCode = (colorCode) -> /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
+generateRandomColorCode = -> '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+colorCodeFromURL = (url) ->  '#' + url.split(urlSeperator)[1]
+
+#endregion
+
+kickstart()
+
+##
+# region service worker
+
+window.onload = ->
+    'use strict'
+    if 'serviceWorker' of navigator
+        navigator.serviceWorker.register('./sw.js').then((registration) ->
+            debugLog 'Service Worker Registered', registration
+            return
+        ).catch (err) ->
+            debugLog 'Service Worker Failed to Register', err
+            return
+    return
+
+#endregion
 
 ##
 #region notes
 
 # NOW
-# working home pwa with cache
+# sw.js to coffee
 # seperate code to files
 # metatags
+
 # png sharing bug 
 # top colors noscript to coffee
 

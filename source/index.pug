@@ -3,12 +3,15 @@ doctype
 html(lang='en')
     head
         meta(charset='utf-8')
-        title 101design.eu
+        title rgb.li - RGB Light
+        meta(name='description', content='RGB Light - Fullscreen Color Web App')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
         link(rel='manifest' href='manifest.json')
         link(rel='icon' href='favicon.ico')
-        link(rel='apple-touch-icon' sizes='180x180' href='img/icon.png')
-        meta(name='description', content='RGB Color Plate')
-        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='apple-touch-icon' sizes='180x180' href='/img/apple-touch-icon.png')
+        link(rel='icon' type='image/png' sizes='32x32' href='/img/favicon-32x32.png')
+        link(rel='icon' type='image/png' sizes='16x16' href='/img/favicon-16x16.png')
+        
         style
             include css/index.css
             include css/browser-sync.css 
@@ -29,4 +32,3 @@ html(lang='en')
 
         script 
             include js/main.js
-            //- include js/actionUrl.js
