@@ -22,7 +22,7 @@ const PRECACHE_URLS = [
   'index.html',
   './', // Alias for index.html
   'manifest.json',
-  'img/apple-touch-icon.png'
+  'img/touch-icon.png'
 ];
 
 // The install handler takes care of precaching the resources we always need.

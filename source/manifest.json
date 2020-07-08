@@ -2,11 +2,11 @@
   "name": "rgb.li",
   "short_name": "rgb.li",
   "icons": [{
-    "src": "img/apple-touch-icon.png",
+    "src": "img/touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }],
-  "lang": "en-US",
+  "lang": "en",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000",

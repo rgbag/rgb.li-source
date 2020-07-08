@@ -5,11 +5,12 @@
   var click, colorCodeFromURL, createColorGrid, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, generateRandomColorCode, getColorCodeFromUrl, home, isFullScreen, isValidColorCode, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateColorCode;
 
   setup = function() {
-    debugLog('setup()');
+    //debugLog('setup()')
     createColorGrid();
     window.addEventListener('scroll', onScroll);
     return window.addEventListener('popstate', function(e) {
-      debugLog("window.addEventListener 'popstate'");
+      
+      //debugLog("window.addEventListener 'popstate'")
       return stateSwitch();
     });
   };
@@ -21,7 +22,7 @@
   };
 
   kickstart = function() {
-    debugLog('kickstart()');
+    //debugLog('kickstart()')
     setup();
     return getColorCodeFromUrl();
   };
@@ -36,7 +37,7 @@
 
   isFullScreen = function() {
     var fullScreenState;
-    debugLog('isFullScreen()');
+    //debugLog('isFullScreen()')
     if (document.getElementById('fullScreenColor') === null) {
       return fullScreenState = false;
     } else {
@@ -45,26 +46,26 @@
   };
 
   stateSwitch = function() {
-    debugLog('stateSwitch()');
+    //debugLog('stateSwitch()')
     // browser history state change by user
     if (isFullScreen()) {
-      debugLog('stateSwitch() -> if isFullScreen()');
+      //debugLog('stateSwitch() -> if isFullScreen()')
       return home();
     } else {
-      debugLog('stateSwitch() -> else');
+      //debugLog('stateSwitch() -> else')
       return getColorCodeFromUrl('#');
     }
   };
 
   home = function() {
-    debugLog('home()');
+    //debugLog('home()')
     return disableFullScreenColor('/.');
   };
 
   pushWindowHistoryState = function(state3) {
-    debugLog('pushWindowHistoryState("' + state3 + '")');
+    //debugLog('pushWindowHistoryState("' + state3 + '")')
     if (userHistory.length === 0 || click === 1) {
-      debugLog('if userHistory.length == 0 || click == 1');
+      //debugLog('if userHistory.length == 0 || click == 1')
       click = 0;
       userHistory.push(state3);
       return window.history.pushState(state3, state3, state3);
@@ -73,7 +74,7 @@
 
   onElementClick = function(e) {
     var color, tokens;
-    debugLog('onElementClick(' + e + ')');
+    //debugLog('onElementClick(' + e + ')')
     tokens = e.target.getAttribute("href").split("#");
     color = "#" + tokens[1];
     click = 1;
@@ -81,9 +82,9 @@
   };
 
   onScroll = function() {
-    var body, colorsDiv, pixelToBottom;
-    debugLog('onScroll');
-    body = document.body;
+    var colorsDiv, pixelToBottom;
+    //debugLog('onScroll')
+    //body = document.body
     colorsDiv = document.getElementById('colors');
     pixelToBottom = colorsDiv.offsetHeight - window.scrollY;
     if (pixelToBottom < window.innerHeight * 2) {
@@ -93,10 +94,10 @@
 
   getColorCodeFromUrl = function() {
     var query, url;
-    debugLog("getColorCodeFromUrl('#')");
+    //debugLog("getColorCodeFromUrl('#')")
     url = window.location.href;
     if (url.includes('#')) {
-      debugLog("getColorCodeFromUrl -> if url.includes('#')");
+      //debugLog("getColorCodeFromUrl -> if url.includes('#')")
       query = '#' + url.split('#')[1];
       return validateColorCode(query);
     }
@@ -107,7 +108,7 @@
   //#
   //region color
   randomColorCode = function(colorType) {
-    debugLog('randomColorCode(' + colorType + ')');
+    //debugLog('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex';
     if (colorType === 'hex') {
       return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -116,14 +117,13 @@
 
   createColorGrid = function() {
     var autoColorGrid, i, topColorGrid;
-    debugLog('createColorGrid()');
+    //debugLog('createColorGrid()')
     i = 0;
-    (topColorGrid = function() {
-      return debugLog('createColorGrid() -> selectedColors()');
-    })();
+    (topColorGrid = function() {})();
+    //debugLog('createColorGrid() -> selectedColors()')
     return (autoColorGrid = function() {
       var colorSquares, colors, divArray, randomColor, results;
-      debugLog('createColorGrid() -> autoColors()');
+      //debugLog('createColorGrid() -> autoColors()')
       colorSquares = 200;
       divArray = new Array;
       colors = document.getElementById('colors');
@@ -142,25 +142,25 @@
   };
 
   validateColorCode = function(colorCode) {
-    debugLog('validateColorCode(' + colorCode + ')');
+    //debugLog('validateColorCode(' + colorCode + ')')
     if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code');
+      //debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
       return enableFullScreenColor(colorCode); // return true # 
     }
   };
 
   enableFullScreenColor = function(color) {
     var fullScreenColorDiv;
-    debugLog("enableFullScreenColor(" + color + ")");
+    //debugLog("enableFullScreenColor(" + color + ")")
     fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>';
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv);
-    document.getElementById('fullscreen').style.overflow = 'hidden';
+    document.body.insertAdjacentHTML('afterbegin', fullScreenColorDiv);
+    document.body.style.overflow = 'hidden';
     return pushWindowHistoryState(color);
   };
 
   disableFullScreenColor = function(pushState) {
     document.getElementById('fullScreenColor').remove();
-    document.getElementById('fullscreen').style.overflow = null;
+    document.body.style.overflow = null;
     return window.history.replaceState(null, null, window.location.pathname);
   };
 
@@ -179,10 +179,10 @@
 
   enableFullScreenColorPng = function(color) {
     var png, pngHTML;
-    debugLog("enableFullScreenColor(" + color + ", " + id + ")");
+    //debugLog("enableFullScreenColor(" + color + ", " + id + ")")
     png = createColorPng(360, 360, color);
     pngHTML = "<img id='colorImage' src='" + png + "' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>";
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML);
+    document.body.insertAdjacentHTML('afterbegin', pngHTML);
     return pushWindowHistoryState(color);
   };
 
@@ -210,49 +210,55 @@
   window.onload = function() {
     'use strict';
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').then(function(registration) {
-        debugLog('Service Worker Registered', registration);
-      }).catch(function(err) {
-        debugLog('Service Worker Failed to Register', err);
-      });
+      //debugLog 'Service Worker Registered', registration
+      navigator.serviceWorker.register('./sw.js').then(function(registration) {}).catch(function(err) {});
     }
   };
 
   //endregion
 
-//#
-//region notes
+  //#
+  //region notes
 
-// NOW
-// working home pwa with cache
-// seperate code to files
-// metatags
-// png sharing bug 
-// top colors noscript to coffee
+  // NOW
+  // url validator redirect 
+  // sw.js to coffee
+  // seperate code to files
+  // metatags
 
-// hide ios tab bar?
+  // viewport zoom
+  // document.addEventListener('touchmove', function (event) {
+  //   if (event.scale !== 1) { event.preventDefault(); }
+  // }, false);
+  // https://stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari/50823326
 
-// 5x Touch Menu
-// Bei Fullscreen wird immer zuerst unten eine Menüleiste angezeigt, notch,
-// bei erneutem Klick auf die Farbe wird die Menüleiste ausgeblendet
-// und kann nur über Browser Back zurückgeholt werden, oder 5x Touch...
+  // png sharing bug 
+  // top colors noscript to coffee
 
-// color pwa
-// v1.5.0?
+  // hide ios tab bar?
 
-// cursor
-// https://www.cssscript.com/interacitve-cursor-dot/
+  // 5x Touch Menu
+  // Bei Fullscreen wird immer zuerst unten eine Menüleiste angezeigt, notch,
+  // bei erneutem Klick auf die Farbe wird die Menüleiste ausgeblendet
+  // und kann nur über Browser Back zurückgeholt werden, oder 5x Touch...
 
-// Backwards compatible, future proof :)
+  // color pwa
+  // v1.5.0?
 
-// Browser-Sync Click Bug
-// https://github.com/BrowserSync/browser-sync/issues/49
+  // cursor
+  // https://www.cssscript.com/interacitve-cursor-dot/
 
-// Cursor
-// https://www.cssscript.com/circle-cursor-pointer/
+  // Backwards compatible, future proof :)
 
-// cert & key gitignore + documentation
+  // Browser-Sync Click Bug
+  // https://github.com/BrowserSync/browser-sync/issues/49
 
-//endregion
+  // Cursor
+  // https://www.cssscript.com/circle-cursor-pointer/
+
+  // cert & key gitignore + documentation
+
+  //endregion
+  //debugLog 'Service Worker Failed to Register', err
 
 }).call(this);

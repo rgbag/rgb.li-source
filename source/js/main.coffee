@@ -2,11 +2,11 @@
 #region setup
 
 setup = () ->
-    debugLog('setup()')
+    #debugLog('setup()')
     createColorGrid()
     window.addEventListener('scroll', onScroll)
     window.addEventListener 'popstate', (e) -> 
-        debugLog("window.addEventListener 'popstate'")
+        #debugLog("window.addEventListener 'popstate'")
         stateSwitch()
 
 debugLog = (log) ->
@@ -14,7 +14,7 @@ debugLog = (log) ->
         console.log(log)
 
 kickstart = () ->
-    debugLog('kickstart()')
+    #debugLog('kickstart()')
     setup()
     getColorCodeFromUrl()
 
@@ -27,54 +27,54 @@ userHistory = []
 click = 0
 
 isFullScreen = () ->
-    debugLog('isFullScreen()')
+    #debugLog('isFullScreen()')
     if document.getElementById('fullScreenColor') == null
         fullScreenState = false
     else 
         fullScreenState = true
 
 stateSwitch = () ->
-    debugLog('stateSwitch()')
+    #debugLog('stateSwitch()')
     # browser history state change by user
     if isFullScreen()
-        debugLog('stateSwitch() -> if isFullScreen()')
+        #debugLog('stateSwitch() -> if isFullScreen()')
         home()
     else
-        debugLog('stateSwitch() -> else')
+        #debugLog('stateSwitch() -> else')
         getColorCodeFromUrl('#')
 
 home = () ->
-    debugLog('home()')
+    #debugLog('home()')
     disableFullScreenColor('/.')
 
 pushWindowHistoryState = (state3) ->
-    debugLog('pushWindowHistoryState("' + state3 + '")')
+    #debugLog('pushWindowHistoryState("' + state3 + '")')
     if userHistory.length == 0 || click == 1
-        debugLog('if userHistory.length == 0 || click == 1')
+        #debugLog('if userHistory.length == 0 || click == 1')
         click = 0
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
 
 onElementClick = (e) ->
-    debugLog('onElementClick(' + e + ')')
+    #debugLog('onElementClick(' + e + ')')
     tokens = e.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
     click = 1
     enableFullScreenColor(color)
 
 onScroll = () ->
-    debugLog('onScroll')
-    body = document.body
+    #debugLog('onScroll')
+    #body = document.body
     colorsDiv = document.getElementById('colors')
     pixelToBottom = colorsDiv.offsetHeight - window.scrollY
     if pixelToBottom < window.innerHeight * 2
         createColorGrid()
 
 getColorCodeFromUrl = () ->
-    debugLog("getColorCodeFromUrl('#')")
+    #debugLog("getColorCodeFromUrl('#')")
     url = window.location.href
     if url.includes('#')
-        debugLog("getColorCodeFromUrl -> if url.includes('#')")
+        #debugLog("getColorCodeFromUrl -> if url.includes('#')")
         query = '#' + url.split('#')[1]
         validateColorCode(query)
 
@@ -84,19 +84,19 @@ getColorCodeFromUrl = () ->
 #region color
 
 randomColorCode = (colorType) ->
-    debugLog('randomColorCode(' + colorType + ')')
+    #debugLog('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex'
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
         
 createColorGrid = () ->
-    debugLog('createColorGrid()')
+    #debugLog('createColorGrid()')
     i = 0
     do topColorGrid = () ->
-        debugLog('createColorGrid() -> selectedColors()')
+        #debugLog('createColorGrid() -> selectedColors()')
 
     do autoColorGrid = () ->
-        debugLog('createColorGrid() -> autoColors()')
+        #debugLog('createColorGrid() -> autoColors()')
         colorSquares = 200
         divArray = new Array
         colors = document.getElementById('colors')
@@ -110,21 +110,21 @@ createColorGrid = () ->
             i++;
 
 validateColorCode = (colorCode) ->
-    debugLog('validateColorCode(' + colorCode + ')')
+    #debugLog('validateColorCode(' + colorCode + ')')
     if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
-        debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+        #debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
         enableFullScreenColor(colorCode) # return true # 
 
 enableFullScreenColor = (color) ->
-    debugLog("enableFullScreenColor(" + color + ")")
+    #debugLog("enableFullScreenColor(" + color + ")")
     fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>'
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', fullScreenColorDiv)
-    document.getElementById('fullscreen').style.overflow = 'hidden'
+    document.body.insertAdjacentHTML('afterbegin', fullScreenColorDiv)
+    document.body.style.overflow = 'hidden'
     pushWindowHistoryState(color)
 
 disableFullScreenColor = (pushState) ->
     document.getElementById('fullScreenColor').remove()
-    document.getElementById('fullscreen').style.overflow = null
+    document.body.style.overflow = null
     window.history.replaceState(null, null, window.location.pathname)
 
 createColorPng = (width, height, colorCode) ->
@@ -139,10 +139,10 @@ createColorPng = (width, height, colorCode) ->
     return image
 
 enableFullScreenColorPng = (color) ->
-    debugLog("enableFullScreenColor(" + color + ", " + id + ")")
+    #debugLog("enableFullScreenColor(" + color + ", " + id + ")")
     png = createColorPng(360, 360, color)
     pngHTML = "<img id='colorImage' src='"+png+"' style='position:fixed; width:100vw; height:100vh; image-rendering: pixelated;'>"
-    document.getElementById('fullscreen').insertAdjacentHTML('afterbegin', pngHTML)
+    document.body.insertAdjacentHTML('afterbegin', pngHTML)
     pushWindowHistoryState(color)
 
 #endregion
@@ -165,10 +165,10 @@ window.onload = ->
     'use strict'
     if 'serviceWorker' of navigator
         navigator.serviceWorker.register('./sw.js').then((registration) ->
-            debugLog 'Service Worker Registered', registration
+            #debugLog 'Service Worker Registered', registration
             return
         ).catch (err) ->
-            debugLog 'Service Worker Failed to Register', err
+            #debugLog 'Service Worker Failed to Register', err
             return
     return
 
@@ -178,9 +178,16 @@ window.onload = ->
 #region notes
 
 # NOW
+# url validator redirect 
 # sw.js to coffee
 # seperate code to files
 # metatags
+
+# viewport zoom
+# document.addEventListener('touchmove', function (event) {
+#   if (event.scale !== 1) { event.preventDefault(); }
+# }, false);
+# https://stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari/50823326
 
 # png sharing bug 
 # top colors noscript to coffee
