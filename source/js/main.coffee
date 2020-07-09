@@ -76,7 +76,7 @@ getColorCodeFromUrl = () ->
     if url.includes('#')
         #debugLog("getColorCodeFromUrl -> if url.includes('#')")
         query = '#' + url.split('#')[1]
-        validateColorCode(query)
+        validateHexColorCode(query)
 
 #endregion
 
@@ -109,11 +109,14 @@ createColorGrid = () ->
             colors.appendChild divArray[i]
             i++;
 
-validateColorCode = (colorCode) ->
-    #debugLog('validateColorCode(' + colorCode + ')')
+validateHexColorCode = (colorCode) ->
+    #debugLog('validateHexColorCode(' + colorCode + ')')
     if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
-        #debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+        #debugLog('validateHexColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
         enableFullScreenColor(colorCode) # return true # 
+    else
+        url = window.location.href
+        window.history.replaceState(null, null, url.split('#')[0])
 
 enableFullScreenColor = (color) ->
     #debugLog("enableFullScreenColor(" + color + ")")
@@ -179,6 +182,8 @@ window.onload = ->
 
 # NOW
 # url validator redirect 
+# desktop browser fullscreen stutter
+# lighthouse fix
 # sw.js to coffee
 # seperate code to files
 # metatags

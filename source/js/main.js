@@ -2,7 +2,7 @@
 (function() {
   //#
   //region setup
-  var click, colorCodeFromURL, createColorGrid, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, generateRandomColorCode, getColorCodeFromUrl, home, isFullScreen, isValidColorCode, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateColorCode;
+  var click, colorCodeFromURL, createColorGrid, createColorPng, debugLog, disableFullScreenColor, enableFullScreenColor, enableFullScreenColorPng, generateRandomColorCode, getColorCodeFromUrl, home, isFullScreen, isValidColorCode, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateHexColorCode;
 
   setup = function() {
     //debugLog('setup()')
@@ -99,7 +99,7 @@
     if (url.includes('#')) {
       //debugLog("getColorCodeFromUrl -> if url.includes('#')")
       query = '#' + url.split('#')[1];
-      return validateColorCode(query);
+      return validateHexColorCode(query);
     }
   };
 
@@ -141,11 +141,15 @@
     })();
   };
 
-  validateColorCode = function(colorCode) {
-    //debugLog('validateColorCode(' + colorCode + ')')
+  validateHexColorCode = function(colorCode) {
+    var url;
+    //debugLog('validateHexColorCode(' + colorCode + ')')
     if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      //debugLog('validateColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
+      //debugLog('validateHexColorCode(' + colorCode + ') -> ' + colorCode + ' is a valid HEX color code')
       return enableFullScreenColor(colorCode); // return true # 
+    } else {
+      url = window.location.href;
+      return window.history.replaceState(null, null, url.split('#')[0]);
     }
   };
 
@@ -222,6 +226,8 @@
 
   // NOW
   // url validator redirect 
+  // desktop browser fullscreen stutter
+  // lighthouse fix
   // sw.js to coffee
   // seperate code to files
   // metatags
