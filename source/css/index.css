@@ -16,6 +16,8 @@ body {
 }
 .color {
   flex: 1 0 20%;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .color:after {
   content: '';
