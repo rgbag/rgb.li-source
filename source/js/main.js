@@ -5,11 +5,12 @@
   var click, createColorGrid, debugLog, disableFullScreenColor, enableFullScreenColor, getColorCodeFromUrl, home, isFullScreen, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateHexColorCode;
 
   setup = function() {
-    debugLog('setup()');
+    //debugLog('setup()')
     createColorGrid();
     window.addEventListener('scroll', onScroll);
     return window.addEventListener('popstate', function(e) {
-      debugLog("window.addEventListener 'popstate'");
+      
+      //debugLog("window.addEventListener 'popstate'")
       return stateSwitch();
     });
   };
@@ -21,7 +22,7 @@
   };
 
   kickstart = function() {
-    debugLog('kickstart()');
+    //debugLog('kickstart()')
     setup();
     return getColorCodeFromUrl();
   };
@@ -36,7 +37,7 @@
 
   isFullScreen = function() {
     var fullScreenState;
-    debugLog('isFullScreen()');
+    //debugLog('isFullScreen()')
     if (document.getElementById('fullScreenColor') === null) {
       return fullScreenState = false;
     } else {
@@ -45,26 +46,26 @@
   };
 
   stateSwitch = function() {
-    debugLog('stateSwitch()');
+    //debugLog('stateSwitch()')
     // browser history state change by user
     if (isFullScreen()) {
-      debugLog('if isFullScreen()');
+      //debugLog('if isFullScreen()')
       return home();
     } else {
-      debugLog('if not isFullScreen()');
+      //debugLog('if not isFullScreen()')
       return getColorCodeFromUrl('#');
     }
   };
 
   home = function() {
-    debugLog('home()');
+    //debugLog('home()')
     return disableFullScreenColor('/.');
   };
 
   pushWindowHistoryState = function(state3) {
-    debugLog('pushWindowHistoryState("' + state3 + '")');
+    //debugLog('pushWindowHistoryState("' + state3 + '")')
     if (userHistory.length === 0 || click === 1) {
-      debugLog('if userHistory.length == 0 || click == 1');
+      //debugLog('if userHistory.length == 0 || click == 1')
       click = 0;
       userHistory.push(state3);
       return window.history.pushState(state3, state3, state3);
@@ -73,7 +74,7 @@
 
   onElementClick = function(e) {
     var color, tokens;
-    debugLog('onElementClick(' + e + ')');
+    //debugLog('onElementClick(' + e + ')')
     tokens = e.target.getAttribute("href").split("#");
     color = "#" + tokens[1];
     click = 1;
@@ -82,7 +83,7 @@
 
   onScroll = function() {
     var colorsDiv, pixelToBottom;
-    debugLog('onScroll()');
+    //debugLog('onScroll()')
     colorsDiv = document.getElementById('colors');
     pixelToBottom = colorsDiv.offsetHeight - window.scrollY;
     if (pixelToBottom < window.innerHeight * 2) {
@@ -92,10 +93,10 @@
 
   getColorCodeFromUrl = function() {
     var query, url;
-    debugLog("getColorCodeFromUrl('#')");
+    //debugLog("getColorCodeFromUrl('#')")
     url = window.location.href;
     if (url.includes('#')) {
-      debugLog("if url.includes('#')");
+      //debugLog("if url.includes('#')")
       query = '#' + url.split('#')[1];
       return validateHexColorCode(query);
     }
@@ -106,7 +107,7 @@
   //#
   //region color
   randomColorCode = function(colorType) {
-    debugLog('randomColorCode(' + colorType + ')');
+    //debugLog('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex';
     if (colorType === 'hex') {
       return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -115,7 +116,7 @@
 
   createColorGrid = function() {
     var colorSquares, colors, divArray, i, randomColor, results;
-    debugLog('createColorGrid()');
+    //debugLog('createColorGrid()')
     i = 0;
     colorSquares = 200;
     divArray = new Array;
@@ -135,12 +136,12 @@
 
   validateHexColorCode = function(colorCode) {
     var url;
-    debugLog('validateHexColorCode(' + colorCode + ')');
+    //debugLog('validateHexColorCode(' + colorCode + ')')
     if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      debugLog(colorCode + ' is a valid HEX color code.');
+      //debugLog(colorCode + ' is a valid HEX color code.')
       return enableFullScreenColor(colorCode);
     } else {
-      debugLog(colorCode + ' is not a valid HEX color code.');
+      //debugLog(colorCode + ' is not a valid HEX color code.')
       url = window.location.href;
       return window.history.replaceState(null, null, url.split('#')[0]);
     }
@@ -148,7 +149,7 @@
 
   enableFullScreenColor = function(color) {
     var fullScreenColorDiv;
-    debugLog('enableFullScreenColor(' + color + ')');
+    //debugLog('enableFullScreenColor(' + color + ')')
     fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>';
     document.body.insertAdjacentHTML('afterbegin', fullScreenColorDiv);
     document.body.style.overflow = 'hidden';

@@ -81,72 +81,237 @@
     opacity: 1;
   }
 }
-      #__bs_notify__ {
-  top: auto !important;
-  bottom: 0 !important;
-  border-top-left-radius: 5px !important;
-  border-bottom-left-radius: 0 !important;
-  color: #fff !important;
-  width: 100% !important;
-  background-color: #32cd32 !important;
-  animation-name: browsersync-notification !important;
-  animation-duration: 2000ms !important;
-  animation-timing-function: ease !important;
+      body.noscript {
+  width: 100%;
+  background-color: #fff;
 }
-@-moz-keyframes browsersync-notification {
-  0% {
+.noscript {
+  --zoomAnimation: 0.5s;
+}
+.noscript .fadeAnimation {
+  animation: fadeIn ease-in;
+  animation-duration: 0.5s;
+}
+.noscript .colorSwitch input {
+  visibility: hidden;
+  position: fixed;
+  top: -100px;
+}
+.noscript .noscriptColor {
+  position: fixed;
+  z-index: 1;
+  cursor: pointer;
+  transition: var(--zoomAnimation);
+}
+.noscript .noscriptColor:before {
+  position: fixed;
+  content: "";
+  height: 25%;
+  width: 20%;
+  transition: var(--zoomAnimation);
+}
+.noscript input:checked + .noscriptColor {
+  z-index: 300;
+}
+.noscript input:checked + .noscriptColor:before {
+  position: fixed;
+  border-radius: 100vw;
+  height: 200vh;
+  width: 200vw;
+  top: -50vh;
+  left: -50vw;
+  z-index: 420;
+}
+.noscript .color1 {
+  animation-delay: 0s;
+}
+.noscript .color1:before {
+  background-color: #00bfff;
+  top: 0px;
+  left: 0%;
+}
+.noscript .color2 {
+  animation-delay: 0.1s;
+}
+.noscript .color2:before {
+  background-color: #adff2f;
+  top: 0px;
+  left: 20%;
+}
+.noscript .color3 {
+  animation-delay: 0.2s;
+}
+.noscript .color3:before {
+  background-color: #daa520;
+  top: 0px;
+  left: 40%;
+}
+.noscript .color4 {
+  animation-delay: 0.3s;
+}
+.noscript .color4:before {
+  background-color: #ff0;
+  top: 0px;
+  left: 60%;
+}
+.noscript .color5 {
+  animation-delay: 0.4s;
+}
+.noscript .color5:before {
+  background-color: #2f4f4f;
+  top: 0px;
+  left: 80%;
+}
+.noscript .color6 {
+  animation-delay: 0.5s;
+}
+.noscript .color6:before {
+  background-color: #f0f;
+  top: 25%;
+  left: 0%;
+}
+.noscript .color7 {
+  animation-delay: 0.6s;
+}
+.noscript .color7:before {
+  background-color: #0ff;
+  top: 25%;
+  left: 20%;
+}
+.noscript .color8 {
+  animation-delay: 0.7s;
+}
+.noscript .color8:before {
+  background-color: #808080;
+  top: 25%;
+  left: 40%;
+}
+.noscript .color9 {
+  animation-delay: 0.8s;
+}
+.noscript .color9:before {
+  background-color: #0f0;
+  top: 25%;
+  left: 60%;
+}
+.noscript .color10 {
+  animation-delay: 0.9s;
+}
+.noscript .color10:before {
+  background-color: #800000;
+  top: 25%;
+  left: 80%;
+}
+.noscript .color11 {
+  animation-delay: 1s;
+}
+.noscript .color11:before {
+  background-color: #6495ed;
+  top: 50%;
+  left: 0%;
+}
+.noscript .color12 {
+  animation-delay: 1.1s;
+}
+.noscript .color12:before {
+  background-color: #7cfc00;
+  top: 50%;
+  left: 20%;
+}
+.noscript .color13 {
+  animation-delay: 1.2s;
+}
+.noscript .color13:before {
+  background-color: #fa8072;
+  top: 50%;
+  left: 40%;
+}
+.noscript .color14 {
+  animation-delay: 1.3s;
+}
+.noscript .color14:before {
+  background-color: #7b68ee;
+  top: 50%;
+  left: 60%;
+}
+.noscript .color15 {
+  animation-delay: 1.4s;
+}
+.noscript .color15:before {
+  background-color: #008080;
+  top: 50%;
+  left: 80%;
+}
+.noscript .color16 {
+  animation-delay: 1.5s;
+}
+.noscript .color16:before {
+  background-color: #000;
+  top: 75%;
+  left: 0%;
+}
+.noscript .color17 {
+  animation-delay: 1.6s;
+}
+.noscript .color17:before {
+  background-color: #800080;
+  top: 75%;
+  left: 20%;
+}
+.noscript .color18 {
+  animation-delay: 1.7s;
+}
+.noscript .color18:before {
+  background-color: #da70d6;
+  top: 75%;
+  left: 40%;
+}
+.noscript .color19 {
+  animation-delay: 1.8s;
+}
+.noscript .color19:before {
+  background-color: #ff1493;
+  top: 75%;
+  left: 60%;
+}
+.noscript .color20 {
+  animation-delay: 1.9s;
+}
+.noscript .color20:before {
+  background-color: #fff;
+  top: 75%;
+  left: 80%;
+}
+@-moz-keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
+  to {
+    opacity: 1;
   }
 }
-@-webkit-keyframes browsersync-notification {
-  0% {
+@-webkit-keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
+  to {
+    opacity: 1;
   }
 }
-@-o-keyframes browsersync-notification {
-  0% {
+@-o-keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
+  to {
+    opacity: 1;
   }
 }
-@keyframes browsersync-notification {
-  0% {
+@keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
+  to {
+    opacity: 1;
   }
 }
 
@@ -225,11 +390,12 @@
   var click, createColorGrid, debugLog, disableFullScreenColor, enableFullScreenColor, getColorCodeFromUrl, home, isFullScreen, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateHexColorCode;
 
   setup = function() {
-    debugLog('setup()');
+    //debugLog('setup()')
     createColorGrid();
     window.addEventListener('scroll', onScroll);
     return window.addEventListener('popstate', function(e) {
-      debugLog("window.addEventListener 'popstate'");
+      
+      //debugLog("window.addEventListener 'popstate'")
       return stateSwitch();
     });
   };
@@ -241,7 +407,7 @@
   };
 
   kickstart = function() {
-    debugLog('kickstart()');
+    //debugLog('kickstart()')
     setup();
     return getColorCodeFromUrl();
   };
@@ -256,7 +422,7 @@
 
   isFullScreen = function() {
     var fullScreenState;
-    debugLog('isFullScreen()');
+    //debugLog('isFullScreen()')
     if (document.getElementById('fullScreenColor') === null) {
       return fullScreenState = false;
     } else {
@@ -265,26 +431,26 @@
   };
 
   stateSwitch = function() {
-    debugLog('stateSwitch()');
+    //debugLog('stateSwitch()')
     // browser history state change by user
     if (isFullScreen()) {
-      debugLog('if isFullScreen()');
+      //debugLog('if isFullScreen()')
       return home();
     } else {
-      debugLog('if not isFullScreen()');
+      //debugLog('if not isFullScreen()')
       return getColorCodeFromUrl('#');
     }
   };
 
   home = function() {
-    debugLog('home()');
+    //debugLog('home()')
     return disableFullScreenColor('/.');
   };
 
   pushWindowHistoryState = function(state3) {
-    debugLog('pushWindowHistoryState("' + state3 + '")');
+    //debugLog('pushWindowHistoryState("' + state3 + '")')
     if (userHistory.length === 0 || click === 1) {
-      debugLog('if userHistory.length == 0 || click == 1');
+      //debugLog('if userHistory.length == 0 || click == 1')
       click = 0;
       userHistory.push(state3);
       return window.history.pushState(state3, state3, state3);
@@ -293,7 +459,7 @@
 
   onElementClick = function(e) {
     var color, tokens;
-    debugLog('onElementClick(' + e + ')');
+    //debugLog('onElementClick(' + e + ')')
     tokens = e.target.getAttribute("href").split("#");
     color = "#" + tokens[1];
     click = 1;
@@ -302,7 +468,7 @@
 
   onScroll = function() {
     var colorsDiv, pixelToBottom;
-    debugLog('onScroll()');
+    //debugLog('onScroll()')
     colorsDiv = document.getElementById('colors');
     pixelToBottom = colorsDiv.offsetHeight - window.scrollY;
     if (pixelToBottom < window.innerHeight * 2) {
@@ -312,10 +478,10 @@
 
   getColorCodeFromUrl = function() {
     var query, url;
-    debugLog("getColorCodeFromUrl('#')");
+    //debugLog("getColorCodeFromUrl('#')")
     url = window.location.href;
     if (url.includes('#')) {
-      debugLog("if url.includes('#')");
+      //debugLog("if url.includes('#')")
       query = '#' + url.split('#')[1];
       return validateHexColorCode(query);
     }
@@ -326,7 +492,7 @@
   //#
   //region color
   randomColorCode = function(colorType) {
-    debugLog('randomColorCode(' + colorType + ')');
+    //debugLog('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex';
     if (colorType === 'hex') {
       return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -335,7 +501,7 @@
 
   createColorGrid = function() {
     var colorSquares, colors, divArray, i, randomColor, results;
-    debugLog('createColorGrid()');
+    //debugLog('createColorGrid()')
     i = 0;
     colorSquares = 200;
     divArray = new Array;
@@ -355,12 +521,12 @@
 
   validateHexColorCode = function(colorCode) {
     var url;
-    debugLog('validateHexColorCode(' + colorCode + ')');
+    //debugLog('validateHexColorCode(' + colorCode + ')')
     if (/^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)) {
-      debugLog(colorCode + ' is a valid HEX color code.');
+      //debugLog(colorCode + ' is a valid HEX color code.')
       return enableFullScreenColor(colorCode);
     } else {
-      debugLog(colorCode + ' is not a valid HEX color code.');
+      //debugLog(colorCode + ' is not a valid HEX color code.')
       url = window.location.href;
       return window.history.replaceState(null, null, url.split('#')[0]);
     }
@@ -368,7 +534,7 @@
 
   enableFullScreenColor = function(color) {
     var fullScreenColorDiv;
-    debugLog('enableFullScreenColor(' + color + ')');
+    //debugLog('enableFullScreenColor(' + color + ')')
     fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>';
     document.body.insertAdjacentHTML('afterbegin', fullScreenColorDiv);
     document.body.style.overflow = 'hidden';
