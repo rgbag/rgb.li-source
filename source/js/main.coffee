@@ -55,9 +55,9 @@ pushWindowHistoryState = (state3) ->
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
 
-onElementClick = (e) ->
-    tokens = e.target.getAttribute("href").split("#")
-    debugLog('onElementClick()', e)
+onElementClick = (evt) ->
+    debugLog('onElementClick()', evt)
+    tokens = evt.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
     click = 1
     enableFullScreenColor(color)
