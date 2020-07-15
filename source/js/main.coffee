@@ -1,6 +1,10 @@
 ##
 #region setup
 
+debugLog = () ->
+    if window.location.hostname == 'localhost'
+        console.log(arguments...)
+
 setup = () ->
     debugLog('setup()')
     createColorGrid()
@@ -8,10 +12,6 @@ setup = () ->
     window.addEventListener 'popstate', (e) -> 
         debugLog("window.addEventListener 'popstate'")
         stateSwitch()
-
-debugLog = (log) ->
-    if window.location.hostname == 'localhost'
-        console.log(log)
 
 kickstart = () ->
     debugLog('kickstart()')
@@ -56,8 +56,8 @@ pushWindowHistoryState = (state3) ->
         window.history.pushState(state3, state3, state3)
 
 onElementClick = (e) ->
-    debugLog('onElementClick(' + e + ')')
     tokens = e.target.getAttribute("href").split("#")
+    debugLog('onElementClick()', e)
     color = "#" + tokens[1]
     click = 1
     enableFullScreenColor(color)
