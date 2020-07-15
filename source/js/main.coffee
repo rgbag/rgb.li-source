@@ -9,7 +9,7 @@ setup = () ->
     debugLog('setup()')
     createColorGrid()
     window.addEventListener('scroll', onScroll)
-    window.addEventListener 'popstate', (e) -> 
+    window.addEventListener 'popstate', (e) ->
         debugLog("window.addEventListener 'popstate'")
         stateSwitch()
 
@@ -30,7 +30,7 @@ isFullScreen = () ->
     debugLog('isFullScreen()')
     if document.getElementById('fullScreenColor') == null
         fullScreenState = false
-    else 
+    else
         fullScreenState = true
 
 stateSwitch = () ->
@@ -87,7 +87,7 @@ randomColorCode = (colorType) ->
     colorType = colorType || 'hex'
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-        
+
 createColorGrid = () ->
     debugLog('createColorGrid()')
     i = 0
