@@ -1,4 +1,4 @@
-doctype 
+doctype
 html(lang='en')
     head
         meta(charset='utf-8')
@@ -12,17 +12,17 @@ html(lang='en')
         link(rel='icon' type='image/png' sizes='16x16' href='/img/favicon-16x16.png')
         style
             include css/index.css
-            include css/browser-sync.css 
             include css/noscript.css
+            include css/browser-sync.css
     body.noscript
         script.
-            document.body.classList.remove('noscript');       
-        #colors       
+            document.body.classList.remove('noscript');
+        #colors
         noscript
             - for (var i = 1; i < 21; i++) {
                 label.colorSwitch
                     input(type='checkbox')
                     span.noscriptColor(class='color'+i).fadeAnimation
             - }
-        script 
+        script
             include js/main.js
