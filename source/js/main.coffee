@@ -1,17 +1,17 @@
 ##
 #region setup
 
+debugLog = () ->
+    if window.location.hostname == 'localhost'
+        console.log(arguments...)
+
 setup = () ->
     debugLog('setup()')
     createColorGrid()
     window.addEventListener('scroll', onScroll)
-    window.addEventListener 'popstate', (e) -> 
+    window.addEventListener 'popstate', (e) ->
         debugLog("window.addEventListener 'popstate'")
         stateSwitch()
-
-debugLog = (log) ->
-    if window.location.hostname == 'localhost'
-        console.log(log)
 
 kickstart = () ->
     debugLog('kickstart()')
@@ -30,7 +30,7 @@ isFullScreen = () ->
     debugLog('isFullScreen()')
     if document.getElementById('fullScreenColor') == null
         fullScreenState = false
-    else 
+    else
         fullScreenState = true
 
 stateSwitch = () ->
@@ -55,9 +55,9 @@ pushWindowHistoryState = (state3) ->
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
 
-onElementClick = (e) ->
-    debugLog('onElementClick(' + e + ')')
-    tokens = e.target.getAttribute("href").split("#")
+onElementClick = (evt) ->
+    debugLog('onElementClick()', evt)
+    tokens = evt.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
     click = 1
     enableFullScreenColor(color)
@@ -87,7 +87,7 @@ randomColorCode = (colorType) ->
     colorType = colorType || 'hex'
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-        
+
 createColorGrid = () ->
     debugLog('createColorGrid()')
     i = 0
