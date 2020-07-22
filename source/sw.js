@@ -14,8 +14,8 @@
 // Names of the two caches used in this version of the service worker.
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
+const PRECACHE = 'precache-v1-hash4';
+const RUNTIME = 'runtime-v1-hash4';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
@@ -27,6 +27,7 @@ const PRECACHE_URLS = [
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
+  console.log("INSTALL SW");
   event.waitUntil(
     caches.open(PRECACHE)
       .then(cache => cache.addAll(PRECACHE_URLS))
@@ -36,11 +37,14 @@ self.addEventListener('install', event => {
 
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
+  console.log('ACTIVATE SW');
   const currentCaches = [PRECACHE, RUNTIME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
+      console.log('cacheNames', cacheNames);
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
     }).then(cachesToDelete => {
+      console.log("DELETE CACHE", cachesToDelete);
       return Promise.all(cachesToDelete.map(cacheToDelete => {
         return caches.delete(cacheToDelete);
       }));
@@ -57,8 +61,10 @@ self.addEventListener('fetch', event => {
   // Skip cross-origin requests, like those for Google Analytics.
   if (isSameOrigin(event.request, self.location.origin) && isGetRequest(event.request)) {
     event.respondWith(
+
       caches.match(event.request).then(cachedResponse => {
         if (cachedResponse) {
+          console.log("CACHE HIT", event.request);
           return cachedResponse;
         }
 
@@ -66,6 +72,7 @@ self.addEventListener('fetch', event => {
           return fetch(event.request).then(response => {
             // Put a copy of the response in the runtime cache.
             return cache.put(event.request, response.clone()).then(() => {
+              console.log('Cache PUT', event.request);
               return response;
             });
           });

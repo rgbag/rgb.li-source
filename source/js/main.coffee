@@ -159,16 +159,15 @@ kickstart()
 # region service worker
 
 window.onload = ->
-    'use strict'
-    if window.location.hostname != 'localhost' # because of browser-sync error
-        if 'serviceWorker' of navigator
-            navigator.serviceWorker.register('./sw.js').then((registration) ->
-                debugLog 'Service Worker Registered', registration
-                return
-            ).catch (err) ->
-                debugLog 'Service Worker Failed to Register', err
-                return
-        return
+  'use strict'
+  if 'serviceWorker' of navigator
+    navigator.serviceWorker.register('./sw.js').then((registration) ->
+      debugLog 'Service Worker Registered', registration
+      return
+    ).catch (err) ->
+      debugLog 'Service Worker Failed to Register', err
+      return
+    return
 
 #endregion
 
