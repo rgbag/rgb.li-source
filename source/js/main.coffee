@@ -1,9 +1,9 @@
 ##
 #region setup
 
-debugLog = () ->
+debugLog = (arg) ->
     if window.location.hostname == 'localhost'
-        console.log(arguments...)
+        console.log(arg)
 
 setup = () ->
     debugLog('setup()')

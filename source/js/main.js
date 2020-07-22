@@ -4,9 +4,9 @@
   //region setup
   var click, createColorGrid, debugLog, disableFullScreenColor, enableFullScreenColor, getColorCodeFromUrl, home, isFullScreen, kickstart, onElementClick, onScroll, pushWindowHistoryState, randomColorCode, setup, stateSwitch, userHistory, validateHexColorCode;
 
-  debugLog = function() {
+  debugLog = function(arg) {
     if (window.location.hostname === 'localhost') {
-      return console.log(...arguments);
+      return console.log(arg);
     }
   };
 
