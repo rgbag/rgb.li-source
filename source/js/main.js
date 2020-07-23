@@ -194,14 +194,12 @@
   // region service worker
   window.onload = function() {
     'use strict';
-    if (window.location.hostname !== 'localhost') { // because of browser-sync error
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').then(function(registration) {
-          debugLog('Service Worker Registered', registration);
-        }).catch(function(err) {
-          debugLog('Service Worker Failed to Register', err);
-        });
-      }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then(function(registration) {
+        debugLog('Service Worker Registered', registration);
+      }).catch(function(err) {
+        debugLog('Service Worker Failed to Register', err);
+      });
     }
   };
 
