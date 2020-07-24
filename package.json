@@ -1,6 +1,6 @@
 {
   "name": "rgb.li",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Fullscreen Color RGB Light",
   "author": "Sebastian Wolfgang Friedrich",
   "license": "EUPL-1.2",
@@ -12,10 +12,12 @@
     "test": "npm start",
     "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
     "build": "npm-run-all stylus coffee purgecss pug-cli www-dist populateProductionHash browser-sync-build",
+    "dist": "npm-run-all rm-rgbli ncp-rgbli ",
     "browser-sync-test": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync-test.config.js",
     "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync-build.config.js --no-notify",
     "www-dist": "npm-run-all rm-www minifier ncp-img ncp-fav ncp-manifest ncp-sw",
     "rm-www": "rimraf www/*",
+    "rm-rgbli": "rimraf ../rgb.li/*",
     "purgecss": "purgecss --out source/css --config config/purgecss.config.js",
     "minifier": "html-minifier --input-dir source --output-dir www --file-ext html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --use-short-doctype --minify-js true --minify-css true",
     "ncp-img": "ncp source/img www/img",
@@ -23,6 +25,7 @@
     "ncp-manifest": "ncp source/manifest.json www/manifest.json",
     "ncp-sw": "ncp source/sw.js www/sw.js",
     "pug-cli": "pug source --pretty",
+    "ncp-rgbli": "ncp www ../rgb.li",
     "populateProductionHash": "node scripts/replace-prod-hash.js",
     "stylus": "stylus source/css/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
@@ -33,7 +36,7 @@
     "concurrently": "concurrently"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.26.10",
     "coffeescript": "^2.4.1",
     "concurrently": "^5.2.0",
     "html-minifier": "^4.0.0",
