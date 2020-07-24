@@ -12,7 +12,7 @@ This project uses pre-processors to generate its source code.
 
 ### Prerequisites
 
-- Node 14.5.0 (see `.nvmrc`)
+- Node 12.18.2 (see `.nvmrc`)
 - [NVM](https://github.com/nvm-sh/nvm) (optional)
 
 ### Run locally
