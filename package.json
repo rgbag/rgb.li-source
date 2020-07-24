@@ -11,7 +11,7 @@
   "scripts": {
     "test": "npm start",
     "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
-    "build": "npm-run-all stylus coffee purgecss pug-cli www-dist browser-sync-build",
+    "build": "npm-run-all stylus coffee purgecss pug-cli www-dist populateProductionHash browser-sync-build",
     "browser-sync-test": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync-test.config.js",
     "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync-build.config.js --no-notify",
     "www-dist": "npm-run-all rm-www minifier ncp-img ncp-fav ncp-manifest ncp-sw",
@@ -23,6 +23,7 @@
     "ncp-manifest": "ncp source/manifest.json www/manifest.json",
     "ncp-sw": "ncp source/sw.js www/sw.js",
     "pug-cli": "pug source --pretty",
+    "populateProductionHash": "node scripts/replace-prod-hash.js",
     "stylus": "stylus source/css/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
     "stop": "echo 'killall node' && killall node",
