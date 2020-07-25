@@ -1,6 +1,6 @@
 {
   "name": "rgb.li",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Fullscreen Color RGB Light",
   "author": "Sebastian Wolfgang Friedrich",
   "license": "EUPL-1.2",
@@ -10,9 +10,11 @@
   },
   "scripts": {
     "test": "npm start",
-    "start": "concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
-    "build": "npm-run-all stylus coffee purgecss pug-cli www-dist populateProductionHash browser-sync-build",
+    "start": "npm run uncomment & concurrently npm:watch-hash npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
+    "build": "npm-run-all comment-out stylus coffee purgecss pug-cli www-dist populateProductionHash browser-sync-build",
     "dist": "npm-run-all rm-rgbli ncp-rgbli ",
+    "comment-out": "node scripts/log.comment-out.js",
+    "uncomment": "node scripts/log.uncomment.js",
     "browser-sync-test": "browser-sync start --files 'source/*.html' --server './source' --config config/browser-sync-test.config.js",
     "browser-sync-build": "browser-sync start --files 'www/*.html' --server './www' --config config/browser-sync-build.config.js --no-notify",
     "www-dist": "npm-run-all rm-www minifier ncp-img ncp-fav ncp-manifest ncp-sw",
@@ -36,7 +38,7 @@
     "concurrently": "concurrently"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.10",
+    "browser-sync": "2.26.7",
     "coffeescript": "^2.4.1",
     "concurrently": "^5.2.0",
     "html-minifier": "^4.0.0",
@@ -45,6 +47,7 @@
     "npm-watch": "^0.6.0",
     "pug-cli": "^1.0.0-alpha6",
     "purgecss": "^1.4.1",
+    "replace-in-file": "^6.1.0",
     "rimraf": "^3.0.0",
     "stylus": "^0.54.7"
   },
