@@ -1,5 +1,8 @@
 node_modules
 
+# certificats directory
+certs
+
 # General
 .DS_Store
 .AppleDouble

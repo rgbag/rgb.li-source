@@ -2,8 +2,8 @@
 module.exports = {
     // https: true,
     https: {
-        key: "/Users/sebastian/HTTPS/localhost+1-key.pem",
-        cert: "/Users/sebastian/HTTPS/localhost+1.pem"
+        key: "./certs/key.pem",
+        cert: "./certs/cert.pem"
     },
     startPath: "",
     callbacks: {
