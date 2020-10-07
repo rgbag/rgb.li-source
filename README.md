@@ -1,7 +1,6 @@
 # RGB-Light
 
-All the Colors!
-
+All the colors: [https://rgb.li?#!](https://rgb.li?#!)
 
 ## Development
 
