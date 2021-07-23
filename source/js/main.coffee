@@ -2,15 +2,15 @@
 #region setup
 
 setup = () ->
-    #console.log('setup()')
+    console.log('setup()')
     createColorGrid()
     window.addEventListener('scroll', onScroll)
     window.addEventListener 'popstate', (e) ->
-        #console.log("window.addEventListener 'popstate'")
+        console.log("window.addEventListener 'popstate'")
         stateSwitch()
 
 kickstart = () ->
-    #console.log('kickstart()')
+    console.log('kickstart()')
     setup()
     getColorCodeFromUrl()
 
@@ -23,53 +23,53 @@ userHistory = []
 click = 0
 
 isFullScreen = () ->
-    #console.log('isFullScreen()')
+    console.log('isFullScreen()')
     if document.getElementById('fullScreenColor') == null
         fullScreenState = false
     else
         fullScreenState = true
 
 stateSwitch = () ->
-    #console.log('stateSwitch()')
+    console.log('stateSwitch()')
     # browser history state change by user
     if isFullScreen()
-        #console.log('if isFullScreen()')
+        console.log('if isFullScreen()')
         home()
     else
-        #console.log('if not isFullScreen()')
+        console.log('if not isFullScreen()')
         getColorCodeFromUrl('#')
 
 home = () ->
-    #console.log('home()')
+    console.log('home()')
     disableFullScreenColor('/.')
 
 pushWindowHistoryState = (state3) ->
-    #console.log('pushWindowHistoryState("' + state3 + '")')
+    console.log('pushWindowHistoryState("' + state3 + '")')
     if userHistory.length == 0 || click == 1
-        #console.log('if userHistory.length == 0 || click == 1')
+        console.log('if userHistory.length == 0 || click == 1')
         click = 0
         userHistory.push(state3)
         window.history.pushState(state3, state3, state3)
 
 onElementClick = (evt) ->
-    #console.log('onElementClick()', evt)
+    console.log('onElementClick()', evt)
     tokens = evt.target.getAttribute("href").split("#")
     color = "#" + tokens[1]
     click = 1
     enableFullScreenColor(color)
 
 onScroll = () ->
-    #console.log('onScroll()')
+    console.log('onScroll()')
     colorsDiv = document.getElementById('colors')
     pixelToBottom = colorsDiv.offsetHeight - window.scrollY
     if pixelToBottom < window.innerHeight * 2
         createColorGrid()
 
 getColorCodeFromUrl = () ->
-    #console.log("getColorCodeFromUrl('#')")
+    console.log("getColorCodeFromUrl('#')")
     url = window.location.href
     if url.includes('#')
-        #console.log("if url.includes('#')")
+        console.log("if url.includes('#')")
         query = '#' + url.split('#')[1]
         validateHexColorCode(query)
 
@@ -79,13 +79,13 @@ getColorCodeFromUrl = () ->
 #region color
 
 randomColorCode = (colorType) ->
-    #console.log('randomColorCode(' + colorType + ')')
+    console.log('randomColorCode(' + colorType + ')')
     colorType = colorType || 'hex'
     if colorType == 'hex'
         '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
 
 createColorGrid = () ->
-    #console.log('createColorGrid()')
+    console.log('createColorGrid()')
     i = 0
     colorSquares = 200
     divArray = new Array
@@ -100,17 +100,17 @@ createColorGrid = () ->
         i++;
 
 validateHexColorCode = (colorCode) ->
-    #console.log('validateHexColorCode(' + colorCode + ')')
+    console.log('validateHexColorCode(' + colorCode + ')')
     if /^#[0-9A-F]{6}$/i.test(colorCode) || /^#([0-9A-F]{3}){1,2}$/i.test(colorCode)
-        #console.log(colorCode + ' is a valid HEX color code.')
+        console.log(colorCode + ' is a valid HEX color code.')
         enableFullScreenColor(colorCode)
     else
-        #console.log(colorCode + ' is not a valid HEX color code.')
+        console.log(colorCode + ' is not a valid HEX color code.')
         url = window.location.href
         window.history.replaceState(null, null, url.split('#')[0])
 
 enableFullScreenColor = (color) ->
-    #console.log('enableFullScreenColor(' + color + ')')
+    console.log('enableFullScreenColor(' + color + ')')
     fullScreenColorDiv = '<div id="fullScreenColor" class="fadeIn" style="background-color: ' + color + ';"><div/>'
     document.body.insertAdjacentHTML('afterbegin', fullScreenColorDiv)
     document.body.style.overflow = 'hidden'
@@ -158,10 +158,10 @@ window.onload = ->
     'use strict'
     if 'serviceWorker' of navigator
         navigator.serviceWorker.register('./sw.js').then((registration) ->
-            #console.log 'Service Worker Registered', registration
+            console.log 'Service Worker Registered', registration
             return
         ).catch (err) ->
-            #console.log 'Service Worker Failed to Register', err
+            console.log 'Service Worker Failed to Register', err
             return
     return
 
