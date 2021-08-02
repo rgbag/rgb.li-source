@@ -31,7 +31,7 @@
     "ncp-rgbli": "ncp www ../rgb.li",
     "populateProductionHash": "node scripts/replace-prod-hash.js",
     "create-certificates": "scripts/create-certificates.sh",
-    "stylus": "stylus source/css/*.styl && npm run pug-cli",
+    "stylus": "stylus -u autoprefixer-stylus source/css/*.styl && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
     "stop": "echo 'killall node' && killall node",
     "watch-pug-cli": "npm-watch pug-cli",
@@ -51,7 +51,8 @@
     "purgecss": "^1.4.1",
     "replace-in-file": "^6.1.0",
     "rimraf": "^3.0.0",
-    "stylus": "^0.54.7"
+    "stylus": "^0.54.7",
+    "autoprefixer-stylus": "^1.0.0"
   },
   "watch": {
     "stylus": {

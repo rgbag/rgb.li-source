@@ -6,8 +6,10 @@ body.noscript {
   --zoomAnimation: 0.5s;
 }
 .noscript .fadeAnimation {
-  animation: fadeIn ease-in;
-  animation-duration: 0.5s;
+  -webkit-animation: fadeIn ease-in;
+          animation: fadeIn ease-in;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
 }
 .noscript .colorSwitch input {
   visibility: hidden;
@@ -40,7 +42,8 @@ body.noscript {
   z-index: 420;
 }
 .noscript .color1 {
-  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
 }
 .noscript .color1:before {
   background-color: #00bfff;
@@ -48,7 +51,8 @@ body.noscript {
   left: 0%;
 }
 .noscript .color2 {
-  animation-delay: 0.1s;
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
 }
 .noscript .color2:before {
   background-color: #adff2f;
@@ -56,7 +60,8 @@ body.noscript {
   left: 20%;
 }
 .noscript .color3 {
-  animation-delay: 0.2s;
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
 }
 .noscript .color3:before {
   background-color: #daa520;
@@ -64,7 +69,8 @@ body.noscript {
   left: 40%;
 }
 .noscript .color4 {
-  animation-delay: 0.3s;
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
 }
 .noscript .color4:before {
   background-color: #ff0;
@@ -72,7 +78,8 @@ body.noscript {
   left: 60%;
 }
 .noscript .color5 {
-  animation-delay: 0.4s;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
 }
 .noscript .color5:before {
   background-color: #2f4f4f;
@@ -80,7 +87,8 @@ body.noscript {
   left: 80%;
 }
 .noscript .color6 {
-  animation-delay: 0.5s;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
 }
 .noscript .color6:before {
   background-color: #f0f;
@@ -88,7 +96,8 @@ body.noscript {
   left: 0%;
 }
 .noscript .color7 {
-  animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
 }
 .noscript .color7:before {
   background-color: #0ff;
@@ -96,7 +105,8 @@ body.noscript {
   left: 20%;
 }
 .noscript .color8 {
-  animation-delay: 0.7s;
+  -webkit-animation-delay: 0.7s;
+          animation-delay: 0.7s;
 }
 .noscript .color8:before {
   background-color: #808080;
@@ -104,7 +114,8 @@ body.noscript {
   left: 40%;
 }
 .noscript .color9 {
-  animation-delay: 0.8s;
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
 }
 .noscript .color9:before {
   background-color: #0f0;
@@ -112,7 +123,8 @@ body.noscript {
   left: 60%;
 }
 .noscript .color10 {
-  animation-delay: 0.9s;
+  -webkit-animation-delay: 0.9s;
+          animation-delay: 0.9s;
 }
 .noscript .color10:before {
   background-color: #800000;
@@ -120,7 +132,8 @@ body.noscript {
   left: 80%;
 }
 .noscript .color11 {
-  animation-delay: 1s;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
 }
 .noscript .color11:before {
   background-color: #6495ed;
@@ -128,7 +141,8 @@ body.noscript {
   left: 0%;
 }
 .noscript .color12 {
-  animation-delay: 1.1s;
+  -webkit-animation-delay: 1.1s;
+          animation-delay: 1.1s;
 }
 .noscript .color12:before {
   background-color: #7cfc00;
@@ -136,7 +150,8 @@ body.noscript {
   left: 20%;
 }
 .noscript .color13 {
-  animation-delay: 1.2s;
+  -webkit-animation-delay: 1.2s;
+          animation-delay: 1.2s;
 }
 .noscript .color13:before {
   background-color: #fa8072;
@@ -144,7 +159,8 @@ body.noscript {
   left: 40%;
 }
 .noscript .color14 {
-  animation-delay: 1.3s;
+  -webkit-animation-delay: 1.3s;
+          animation-delay: 1.3s;
 }
 .noscript .color14:before {
   background-color: #7b68ee;
@@ -152,7 +168,8 @@ body.noscript {
   left: 60%;
 }
 .noscript .color15 {
-  animation-delay: 1.4s;
+  -webkit-animation-delay: 1.4s;
+          animation-delay: 1.4s;
 }
 .noscript .color15:before {
   background-color: #008080;
@@ -160,7 +177,8 @@ body.noscript {
   left: 80%;
 }
 .noscript .color16 {
-  animation-delay: 1.5s;
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
 }
 .noscript .color16:before {
   background-color: #000;
@@ -168,7 +186,8 @@ body.noscript {
   left: 0%;
 }
 .noscript .color17 {
-  animation-delay: 1.6s;
+  -webkit-animation-delay: 1.6s;
+          animation-delay: 1.6s;
 }
 .noscript .color17:before {
   background-color: #800080;
@@ -176,7 +195,8 @@ body.noscript {
   left: 20%;
 }
 .noscript .color18 {
-  animation-delay: 1.7s;
+  -webkit-animation-delay: 1.7s;
+          animation-delay: 1.7s;
 }
 .noscript .color18:before {
   background-color: #da70d6;
@@ -184,7 +204,8 @@ body.noscript {
   left: 40%;
 }
 .noscript .color19 {
-  animation-delay: 1.8s;
+  -webkit-animation-delay: 1.8s;
+          animation-delay: 1.8s;
 }
 .noscript .color19:before {
   background-color: #ff1493;
@@ -192,30 +213,15 @@ body.noscript {
   left: 60%;
 }
 .noscript .color20 {
-  animation-delay: 1.9s;
+  -webkit-animation-delay: 1.9s;
+          animation-delay: 1.9s;
 }
 .noscript .color20:before {
   background-color: #fff;
   top: 75%;
   left: 80%;
 }
-@-moz-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 @-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-o-keyframes fadeIn {
   from {
     opacity: 0;
   }

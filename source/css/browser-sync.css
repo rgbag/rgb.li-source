@@ -6,39 +6,14 @@
   color: #fff !important;
   width: 100% !important;
   background-color: #32cd32 !important;
-  animation-name: browsersync-notification !important;
-  animation-duration: 2000ms !important;
-  animation-timing-function: ease !important;
-}
-@-moz-keyframes browsersync-notification {
-  0% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
+  -webkit-animation-name: browsersync-notification !important;
+          animation-name: browsersync-notification !important;
+  -webkit-animation-duration: 2000ms !important;
+          animation-duration: 2000ms !important;
+  -webkit-animation-timing-function: ease !important;
+          animation-timing-function: ease !important;
 }
 @-webkit-keyframes browsersync-notification {
-  0% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0.8;
-  }
-  60% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@-o-keyframes browsersync-notification {
   0% {
     opacity: 0;
   }
