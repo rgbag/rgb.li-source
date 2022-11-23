@@ -40,7 +40,7 @@
     "concurrently": "concurrently"
   },
   "devDependencies": {
-    "browser-sync": "^2.27.4",
+    "browser-sync": "^2.27.10",
     "coffeescript": "^2.4.1",
     "concurrently": "^5.2.0",
     "html-minifier": "^4.0.0",
